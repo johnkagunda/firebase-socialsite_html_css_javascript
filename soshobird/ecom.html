@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Polls</title>
+  <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js"></script>
+</head>
+<body>
+  <h1>Poll Choices</h1>
+  
+  <form id="pollForm">
+    <label for="pollQuestion">Poll Question:</label>
+    <input type="text" id="pollQuestion" required>
+    
+    <label for="choice1">Choice 1:</label>
+    <input type="text" id="choice1" required>
+    
+    <label for="choice2">Choice 2:</label>
+    <input type="text" id="choice2" required>
+    
+    <button type="button" onclick="submitPoll()">Submit Poll</button>
+  </form>
+
+  <script>
+    // Initialize Firebase with your project configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyAVeabVGSO5Ru1u5MBccbZ03Onpul5_16Y",
+  authDomain: "nexyket.firebaseapp.com",
+  databaseURL: "https://nexyket-default-rtdb.firebaseio.com",
+  projectId: "nexyket",
+  storageBucket: "nexyket.appspot.com",
+  messagingSenderId: "398223201089",
+  appId: "1:398223201089:web:233e87df3e2755c80607c0",
+  measurementId: "G-TE9RNY1NTL"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    // Reference to the Firebase Realtime Database
+    const database = firebase.database();
+
+    function submitPoll() {
+      const pollQuestion = document.getElementById('pollQuestion').value;
+      const choice1 = document.getElementById('choice1').value;
+      const choice2 = document.getElementById('choice2').value;
+
+      // Save the poll data to the database
+      const pollRef = database.ref('polls').push();
+      pollRef.set({
+        question: pollQuestion,
+        choices: {
+          choice1: 0, // Initial vote count for choice1
+          choice2: 0  // Initial vote count for choice2
+        }
+      });
+
+      alert('Poll submitted successfully!');
+    }
+  </script>
+</body>
+</html>

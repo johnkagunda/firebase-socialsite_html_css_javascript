@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        /* Add your CSS styles here */
+        /* Style for the profile section */
+        #profileInfo {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #profileInfo h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        #profileInfo img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        #profileInfo h2 {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        #profileInfo p {
+            font-size: 16px;
+            color: #777;
+        }
+/* Styling for the entire Instagram post section */
+.instagram-post {
+   /* Posts */
+
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color:white;
+    border-radius: 10px;
+/* Original box-shadow */
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+/* Darker and cooler box-shadow */
+box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+
+}
+
+/* Styling for the post image */
+.post-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 5px; /* Rounded corners for the image */
+}
+
+/* Styling for the post caption */
+.post-caption {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.like-button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+        }
+
+/* Styling for the "View Comments" button */
+.comment-button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* Styling for the comments section */
+.comments {
+    display: none; /* Hide comments by default */
+    margin-top: 10px;
+    text-align: left; /* Align comments to the left */
+}
+
+/* Styling for the comment input */
+.comment-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+        .comment-content {
+            flex: 1;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border-radius: 10px;
+        }
+
+        .comment-username {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            margin: 0;
+        }
+
+        /* Follow button */
+        #followButton {
+            background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+        }
+
+        /* Follow count */
+        #followCount {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+
+        /* Add this CSS to style the modal container */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 50%;
+    text-align: center;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
+}
+
+    </style>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.20.2/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+    <div id="profileInfo">
+        
+        <!-- Add this inside your user profile section -->
+   
+
+        <img id="userProfilePicture" src="" alt="Profile Picture">
+        <h2 id="userName"></h2>
+        <p id="userBio"></p>
+        <p id="userEmail"></p>
+        <p id="userPhoneNumber"><a id="whatsappLink" href="javascript:void(0);" target="_blank">WhatsApp</a></p>
+        
+        <!-- Follow button and count -->
+
+
+        <button id="followButton">Follow</button>
+
+
+        <div id="followersModal" class="modal">
+            <div class="modal-content">
+                <!-- Close button -->
+                <span class="close" id="closeFollowersContainer">&times;</span>
+                <h2>Followers</h2>
+                <ul id="followersList"></ul>
+            </div>
+        </div>
+        
+
+
+
+
+<!-- Add a link to open the followers modal when the followers count is clicked -->
+<span id="followCount" style="cursor: pointer;" onclick="openFollowersModal('${userId}')">0 Followers</span>
+
+    </div>
+   
+
+    <i class="bi bi-check-circle"></i>
+    <h2>Posts by <span id="userNameSpan"></span></h2>
+    <div id="userPostsList"></div>
+     <!-- Add a container for displaying market data -->
+    <div id="userMarketData">
+        <!-- Market data for the user profile will be displayed here -->
+    </div>
+
+
+    
+
+    <!-- Include Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-storage.js"></script>
+
+    <script>
+        // Initialize Firebase
+        var firebaseConfig = {
+            // Your Firebase config here
+            apiKey: "AIzaSyAVeabVGSO5Ru1u5MBccbZ03Onpul5_16Y",
+  authDomain: "nexyket.firebaseapp.com",
+  databaseURL: "https://nexyket-default-rtdb.firebaseio.com",
+  projectId: "nexyket",
+  storageBucket: "nexyket.appspot.com",
+  messagingSenderId: "398223201089",
+  appId: "1:398223201089:web:233e87df3e2755c80607c0",
+  measurementId: "G-TE9RNY1NTL"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        const database = firebase.database();
+
+        // Get the user ID from the URL query parameters
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const userId = urlParams.get('userId');
+
+        // Function to display user profile information and posts
+        function displayUserProfile(userId) {
+            const userNameSpan = document.getElementById('userNameSpan');
+            const userProfilePicture = document.getElementById('userProfilePicture');
+            const userName = document.getElementById('userName');
+            const userBio = document.getElementById('userBio');
+            const userEmail = document.getElementById('userEmail');
+            const userPhoneNumber = document.getElementById('userPhoneNumber');
+            const userPostsList = document.getElementById('userPostsList');
+
+            // Reference to the user's profile data
+            const userProfileRef = database.ref(`userProfiles/${userId}`);
+
+            userProfileRef.on('value', snapshot => {
+                const userProfile = snapshot.val();
+
+                if (userProfile) {
+                    userNameSpan.textContent = userProfile.name;
+                    userProfilePicture.src = userProfile.profilePictureURL;
+                    userName.textContent = userProfile.name;
+                    userBio.textContent = userProfile.bio;
+                    userEmail.textContent = userProfile.email;
+
+                    // Reference to the user's posts
+                    const userPostsRef = database.ref(`userPosts/${userId}`);
+
+                    // Add this code to display the followers count
+                    const followersCountElement = document.getElementById('followCount');
+
+                    // Reference to the user's followers count in the database
+                    const followersCountRef = database.ref(`userProfiles/${userId}/followersCount`);
+
+                    followersCountRef.on('value', snapshot => {
+                        const followersCount = snapshot.val() || 0;
+                        followersCountElement.textContent = `${followersCount} Followers`;
+                    });
+
+                    userPostsRef.on('value', postSnapshot => {
+                        userPostsList.innerHTML = ''; // Clear previous posts
+
+                        postSnapshot.forEach(post => {
+                            const postKey = post.key;
+                            const postElement = document.createElement('div');
+                            const likeButton = document.createElement('button');
+                            const likeCountElement = document.createElement('span');
+
+                            // Initialize like count to 0
+                            let likeCount = 0;
+
+                            // Check if post.likes exists and get the number of likes
+                            if (post.val().likes) {
+                                likeCount = Object.keys(post.val().likes).length;
+                            }
+
+                            likeButton.textContent = 'Like';
+                            likeButton.classList.add('like-button');
+                            likeCountElement.textContent = `${likeCount} likes`;
+                            likeCountElement.classList.add('like-count');
+
+                            // Add event listener to like button
+                            likeButton.addEventListener('click', () => {
+                                likePost(userId, postKey);
+                            });
+
+                            // Fetch "crushiesCount" from the "crushies" child node
+                            const crushiesCountRef = database.ref(`userPosts/${userId}/${postKey}/crushiesCount`);
+                            crushiesCountRef.on('value', (snapshot) => {
+                                const crushiesCount = snapshot.val() || 0;
+                                const crushiesCountElement = document.createElement('span');
+                                crushiesCountElement.textContent = `${crushiesCount} Crushies`;
+                                postElement.appendChild(crushiesCountElement);
+                            });
+
+                            postElement.innerHTML = `
+                                <div class="instagram-post">
+                                    ${post.pictureURL ? `<img src="${post.pictureURL}" class="posted-picture">` : ''}
+                                    <p class="post-caption">${post.val().caption}</p>
+                                    <button class="comment-button" id="commentButton-${postKey}" onclick="showComments('${userId}', '${postKey}')">View Comments</button>
+                                    <div id="comments-${postKey}" class="comments">
+                                        <!-- Comments will be displayed here -->
+                                    </div>
+                                    <input type="text" id="commentInput-${postKey}" class="comment-input" placeholder="Add a comment">
+                                </div>
+                            `;
+
+                            // Append like button and like count to the post element
+                            postElement.appendChild(likeButton);
+                            postElement.appendChild(likeCountElement);
+
+                            userPostsList.appendChild(postElement);
+                        });
+                    });
+                } else {
+                    // Handle the case when the user's profile data is not available
+                }
+            });
+        }
+        // Add this code after displaying user information (e.g., after userEmail.textContent = userProfile.email;)
+const userPhoneNumber = document.getElementById('userPhoneNumber');
+
+// Reference to the user's phone number in the database
+const userPhoneNumberRef = database.ref(`userProfiles/${userId}/phoneNumber`);
+
+userPhoneNumberRef.on('value', snapshot => {
+    const phoneNumber = snapshot.val();
+    if (phoneNumber) {
+        userPhoneNumber.textContent = `Phone Number: ${phoneNumber}`;
+    } else {
+        userPhoneNumber.textContent = 'Phone number not provided';
+    }
+});
+
+
+
+        // Function to like a post
+        function likePost(userId, postKey) {
+            const user = firebase.auth().currentUser;
+
+            if (user) {
+                const postRef = firebase.database().ref(`userPosts/${userId}/${postKey}`);
+                postRef.transaction(function (post) {
+                    if (post) {
+                        if (!post.likes) {
+                            post.likes = {};
+                        }
+
+                        // Check if the current user has already liked this post
+                        if (post.likes[user.uid]) {
+                            // User has already liked this post, remove the like
+                            delete post.likes[user.uid];
+                        } else {
+                            // User has not liked this post, add the like
+                            post.likes[user.uid] = true;
+                        }
+
+                        // Update the like count
+                        post.likesCount = Object.keys(post.likes).length;
+
+                        return post;
+                    }
+                });
+            }
+        }
+
+        // Function to add a comment to a post
+        function addComment(userId, postKey, commentInputId) {
+            const commentInput = document.getElementById(commentInputId);
+            const commentText = commentInput.value.trim();
+
+            if (commentText !== '') {
+                const commentsRef = firebase.database().ref(`userPosts/${userId}/${postKey}/comments`);
+                const newCommentRef = commentsRef.push();
+                const user = firebase.auth().currentUser;
+                const username = user ? user.displayName : 'Anonymous';
+
+                const newComment = {
+                    userId: user.uid,
+                    username: username,
+                    text: commentText,
+                };
+
+                newCommentRef.set(newComment);
+
+                // Clear the comment input field
+                commentInput.value = '';
+            }
+        }
+
+        // Function to show comments for a post
+        function showComments(userId, postKey) {
+            const commentsDiv = document.getElementById(`comments-${postKey}`);
+            const commentButton = document.querySelector(`#commentButton-${postKey}`);
+
+            if (commentsDiv.style.display === 'none' || commentsDiv.style.display === '') {
+                commentsDiv.style.display = 'block';
+                commentButton.textContent = 'Hide Comments';
+
+                const commentsRef = firebase.database().ref(`userPosts/${userId}/${postKey}/comments`);
+
+                commentsRef.on('child_added', function (snapshot) {
+                    const comment = snapshot.val();
+                    const commentElement = document.createElement('div');
+                    commentElement.className = 'comment';
+
+                    // Create a container for the profile picture
+                    const profilePicContainer = document.createElement('div');
+                    profilePicContainer.innerHTML = `<img src="${comment.profilePictureURL}" alt="Profile Picture" class="comment-profile-pic">`;
+
+                    // Create a container for the comment content
+                    const commentContent = document.createElement('div');
+                    commentContent.className = 'comment-content';
+
+                    // Make the username clickable and link to the user's profile page
+                    const commentUsername = document.createElement('a');
+                    commentUsername.href = `profile.html?userId=${comment.userId}`; // Replace with the actual link
+                    commentUsername.className = 'comment-username';
+                    commentUsername.textContent = comment.username;
+
+                    const commentText = document.createElement('p');
+                    commentText.className = 'comment-text';
+                    commentText.textContent = comment.text;
+
+                    // Append the comment username and text to the comment content
+                    commentContent.appendChild(commentUsername);
+                    commentContent.appendChild(commentText);
+
+                    // Append the profile picture and comment content to the comment element
+                    commentElement.appendChild(profilePicContainer);
+                    commentElement.appendChild(commentContent);
+
+                    commentsDiv.appendChild(commentElement);
+                });
+            } else {
+                commentsDiv.style.display = 'none';
+                commentButton.textContent = 'View Comments';
+                commentsDiv.innerHTML = ''; // Clear previous comments
+            }
+
+            const followCount = document.getElementById('followCount');
+    followCount.addEventListener('click', () => {
+        displayFollowersInModal(userId);
+    });
+
+        }
+
+        // Function to open the followers modal
+function openFollowersModal(userId) {
+    const followersModal = document.getElementById('followersModal');
+    followersModal.style.display = 'block';
+
+    // Fetch and display the list of followers
+    displayFollowersList(userId);
+}
+
+// Function to close the followers modal
+function closeFollowersModal() {
+    const followersModal = document.getElementById('followersModal');
+    followersModal.style.display = 'none';
+}
+
+// Add an event listener to the close button for closing the modal
+const closeFollowersContainerButton = document.getElementById('closeFollowersContainer');
+closeFollowersContainerButton.addEventListener('click', closeFollowersModal);
+
+// Add an event listener to close the modal when clicking outside of it
+window.addEventListener('click', (event) => {
+    const followersModal = document.getElementById('followersModal');
+    if (event.target === followersModal) {
+        closeFollowersModal();
+    }
+});
+
+// Add an event listener to the followers count to open the modal
+const followCount = document.getElementById('followCount');
+followCount.addEventListener('click', () => {
+    openFollowersModal(userId);
+});
+
+
+
+// Function to handle following/unfollowing
+function toggleFollow(userIdToFollow) {
+    const user = firebase.auth().currentUser;
+
+    if (user) {
+        const userRef = database.ref(`userProfiles/${user.uid}`);
+        const followedUserRef = database.ref(`userProfiles/${userIdToFollow}`);
+
+        // Check if the user is already following the target user
+        userRef.child('following').once('value', (snapshot) => {
+            const following = snapshot.val() || {};
+
+            if (following[userIdToFollow]) {
+                // User is already following, unfollow
+                delete following[userIdToFollow];
+
+                // Remove follower information from the followed user's followers list
+                followedUserRef.child('followers').child(user.uid).remove();
+            } else {
+                // User is not following, follow
+                following[userIdToFollow] = true;
+
+                // Add follower information to the followed user's followers list
+                followedUserRef.child('followers').child(user.uid).set(firebase.database.ServerValue.TIMESTAMP);
+            }
+
+            // Update the user's following list
+            userRef.child('following').set(following);
+
+            // Update the followed user's followers count
+            followedUserRef.child('followersCount').transaction((count) => {
+                if (following[userIdToFollow]) {
+                    return (count || 0) + 1;
+                } else {
+                    return (count || 0) - 1;
+                }
+            });
+        });
+    }
+}
+
+
+// Function to open the followers modal and load follower information
+function openFollowersModal(userId) {
+    // Display the followers modal
+    const modal = document.getElementById('followerModal');
+    modal.style.display = 'block';
+
+    // Load and display follower information
+    displayFollowersWithUIDsInModal(userId);
+}
+
+// Function to display the list of followers with UIDs in a modal
+function displayFollowersWithUIDsInModal(userId) {
+    const followersList = document.getElementById('followersList');
+    const modal = document.getElementById('followerModal');
+
+    const userRef = database.ref(`userProfiles/${userId}`);
+    userRef.child('followers').on('value', snapshot => {
+        followersList.innerHTML = ''; // Clear previous followers
+
+        snapshot.forEach(follower => {
+            const followerId = follower.key; // Get the User ID of the follower
+
+            // Fetch the timestamp when the user followed
+            const followTimestamp = follower.val();
+
+            // Fetch the follower's name (or username) and add it to the list
+            const followerNameRef = database.ref(`userProfiles/${followerId}/name`);
+            followerNameRef.once('value', nameSnapshot => {
+                const followerName = nameSnapshot.val();
+                
+                const followerElement = document.createElement('li');
+                followerElement.textContent = `${followerName} (UID: ${followerId}) Followed at: ${new Date(followTimestamp).toLocaleString()}`; // Display the UID and follow timestamp
+                followersList.appendChild(followerElement);
+            });
+        });
+
+        // Display the modal
+        modal.style.display = 'block';
+    });
+
+    // Close the modal when the close button or outside of the modal is clicked
+    const closeButton = document.querySelector('.close');
+    closeButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.onclick = (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+}
+
+
+        // Function to update the UI based on whether the current user is following
+        function updateFollowButton(userIdToFollow) {
+            const user = firebase.auth().currentUser;
+            const followButton = document.getElementById('followButton');
+            const followCount = document.getElementById('followCount');
+
+            if (user) {
+                // Check if the current user is already following the target user
+                const userRef = database.ref(`userProfiles/${user.uid}`);
+                userRef.child('following').once('value', (snapshot) => {
+                    const following = snapshot.val() || {};
+
+                    if (following[userIdToFollow]) {
+                        followButton.textContent = 'Unfollow';
+                    } else {
+                        followButton.textContent = 'Follow';
+                    }
+                });
+            }
+
+            // Update the follow count
+            const followedUserRef = database.ref(`userProfiles/${userIdToFollow}`);
+            followedUserRef.child('followersCount').on('value', (snapshot) => {
+                const followersCount = snapshot.val() || 0;
+                followCount.textContent = followersCount + ' Followers';
+            });
+        }
+
+        // Add an event listener to the Follow button
+        const followButton = document.getElementById('followButton');
+        followButton.addEventListener('click', () => {
+            toggleFollow(userId);
+            updateFollowButton(userId);
+        });
+
+        // Call updateFollowButton(userId) to initialize the button and follow count
+        updateFollowButton(userId);
+
+        // Listen for changes in authentication state
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // User is signed in, display the user's profile
+                displayUserProfile(userId);
+            } else {
+                // User is not signed in, handle accordingly
+                // You can redirect the user to the login page or perform other actions
+            }
+        });
+
+// Remove this line, as userPhoneNumber is already declared earlier
+// const userPhoneNumber = document.getElementById('userPhoneNumber');
+userPhoneNumberRef.on('value', snapshot => {
+    const phoneNumber = snapshot.val();
+    console.log('Fetched phone number:', phoneNumber); // Check the value in the console
+    if (phoneNumber) {
+        // Construct the WhatsApp link with the phone number
+        const whatsappLink = `https://api.whatsapp.com/send?phone=${phoneNumber}`;
+        console.log('WhatsApp link:', whatsappLink); // Check the constructed link
+        // Update the 'href' attribute and 'textContent' of the 'whatsappLink' element
+        const whatsappLinkElement = document.getElementById('whatsappLink');
+        whatsappLinkElement.href = whatsappLink;
+        whatsappLinkElement.textContent = `WhatsApp: ${phoneNumber}`;
+    } else {
+        // If no phone number is provided, display a message
+        userPhoneNumber.textContent = 'Phone number not provided';
+        userPhoneNumber.style.pointerEvents = 'none'; // Disable the link if no phone number is provided
+    }
+});
+
+
+// Function to open the followers modal
+function openFollowersModal() {
+    const followersModal = document.getElementById('followersModal');
+    followersModal.style.display = 'block';
+
+    // Fetch and display the list of followers
+    displayFollowersList(userId);
+}
+
+// Function to close the followers modal
+function closeFollowersModal() {
+    const followersModal = document.getElementById('followersModal');
+    followersModal.style.display = 'none';
+}
+
+// Function to display the list of followers
+function displayFollowersList(userId) {
+    const followersList = document.getElementById('followersList');
+
+    // Reference to the user's followers in the database
+    const followersRef = database.ref(`userProfiles/${userId}/followers`);
+
+
+    followersList.innerHTML = ''; 
+    followersRef.on('value', snapshot => {
+        followersList.innerHTML = ''; // Clear previous followers
+
+        snapshot.forEach(follower => {
+            const followerId = follower.key;
+
+            // Fetch the follower's name (or username) and add it to the list
+            const followerNameRef = database.ref(`userProfiles/${followerId}/name`);
+            followerNameRef.once('value', nameSnapshot => {
+                const followerName = nameSnapshot.val();
+                
+                const followerElement = document.createElement('li');
+                followerElement.textContent = followerName;
+                followersList.appendChild(followerElement);
+            });
+        });
+    });
+}
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <title>User Authentication</title>
+    <style>
+        
+    .suggestions-section {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .suggestions-posts {
+            display: inline-block;
+            margin-right: 10px; /* Adjust spacing between posts as needed */
+        }
+.profile-info {
+    display: flex;
+    align-items: center;
+}
+
+/* Style the container for profile picture and name */
+.profile-picture-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Style the profile picture */
+.profile-picture {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Style the user name */
+.user-name {
+   /* Styles for the profile info container */
+.profile-info {
+    display: flex;
+    align-items: center;
+}
+
+/* Style the container for profile picture and name */
+.profile-picture-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Style the profile picture */
+/* Style the profile picture */
+.profile-picture {
+    width: 120px; /* Set the width to your desired size */
+    height: 120px; /* Set the height to your desired size */
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: cover; /* Maintain aspect ratio and cover the entire space */
+    border: 3px solid #fff; /* Add a border to make it more appealing */
+}
+
+
+/* Style the user name */
+.user-name {
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333; /* You can adjust the color as needed */
+}
+
+    text-decoration: none;
+    color: #333; /* You can adjust the color as needed */
+}
+
+
+.user-link {
+    text-decoration: none; /* Remove the underline from the link */
+    color: inherit; /* Inherit the text color from the parent element */
+}
+
+.user-link:hover .user-name {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Style your search results container here */
+#searchResults {
+    /* Add your styles for the search results */
+    background-color: #0e5aee;
+}
+/* Style the search bar container and button */
+.search-bar {
+    display: flex;
+    align-items: center;
+    overflow-y: hidden; /* Prevent vertical scrolling */
+
+
+    position: fixed;
+}
+
+.search-bar input {
+    flex-grow: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 25px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.search-bar button {
+    background-color:white;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 8px 20px;
+}
+
+#searchButton:hover {
+    background-color: #555;
+}
+
+/* Vertical scrolling for allUsersContainer */
+.horizontal-scroll-container {
+    overflow-x: auto; /* Enable vertical scrolling */
+    max-height: 300px; /* Set the max height to control the scrollable area */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color:whites;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+/* Add this style to make the top-nav fixed */
+.top-nav {
+    position: fixed;
+    border: 10px;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color:black;/* Set the background color as needed */
+    color: #fff; /* Set the text color as needed */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    z-index: 2; /* Set an appropriate z-index to ensure it's above other content */
+    transition: background-color 0.3s ease; /* Add a smooth transition effect for background color */
+}
+
+.search-bar input {
+    background-color: #e1e8ed; /* Background color for the search input */
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px; /* Increase padding for better appearance */
+}
+
+.search-bar button {
+    background-color: #1da1f2; /* Twitter's blue button color */
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 20px; /* Increase padding for better appearance */
+}
+
+
+/* Main content container */
+.content {
+    position: fixed;
+    max-width: 50px;
+    margin: 20px auto;
+    background-color: black;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.left-sidebar {
+    flex: 1;
+    padding-right: 20px;
+    border-right: 1px solid #ccc;
+    display: none; /* Hide the left-sidebar by default */
+}
+
+
+.left-sidebar h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.left-sidebar .user-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.left-sidebar .user-card img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.left-sidebar .user-card span {
+    font-size: 16px;
+}
+
+/* Main content */
+.main-content {
+    flex: 2;
+}
+
+/* Posts */
+.post {
+
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color:white;
+    border-radius: 10px;
+/* Original box-shadow */
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+/* Darker and cooler box-shadow */
+box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+
+}
+
+
+.post .post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Update profile picture styles */
+.post .post-header img {
+    width: 32px; /* Adjust the size as needed */
+    height: 32px; /* Adjust the size as needed */
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Update username styles */
+.post .post-header h3 {
+    font-size: 16px; /* Adjust the font size as needed */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.post .post-content {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.post .post-image {
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.post .post-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post .post-actions button {
+    padding: 5px 10px;
+    background-color: #cc0000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.post .post-actions button:hover {
+    background-color: #0e5aee;
+}
+
+/* Style the like and comment buttons */
+.like-button, .comment-button {
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.like-button:hover, .comment-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Style the likers and comments containers */
+.likers, .comments {
+    margin-top: 10px;
+    max-height: 150px; /* Set a maximum height for the containers */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Style the individual liker/comment elements */
+.liker-element, .comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.liker-element img, .comment img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comment-content {
+    flex: 1;
+    padding: 10px;
+    background-color: #f2f3f5;
+    border-radius: 10px;
+}
+
+.comment-username {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.comment-text {
+    margin: 0;
+}
+
+
+
+
+
+/* Add this CSS to style the profile picture and username */
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-info img.profile-picture {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-info a.user-name {
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333; /* You can adjust the color as needed */
+}
+/* Style the like and comment buttons */
+.like-button, .comment-button {
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.like-button:hover, .comment-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Style the likers and comments containers */
+.likers, .comments {
+    margin-top: 10px;
+    max-height: 150px; /* Set a maximum height for the containers */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Style the individual liker/comment elements */
+.liker-element, .comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.liker-element img, .comment img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+
+.comment-content {
+    flex: 1;
+    padding: 10px;
+    background-color: #f2f3f5;
+    border-radius: 10px;
+}
+
+.comment-username {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.comment-text {
+    margin: 0;
+}
+/* Style the like and comment buttons like Instagram */
+.like-button, .comment-button {
+    background-color: green;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #262626; /* Text color */
+}
+
+.like-button:hover, .comment-button:hover {
+    background-color: rgba(0, 0, 0, 0.07); /* Light gray background on hover */
+    color: #333; /* Darker text color on hover */
+}
+   /* Login and Signup container styles */
+   .container {
+            background-color: white;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .container h1 {
+            color: #262626;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #dbdbdb;
+            border-radius: 4px;
+        }
+
+        .container button {
+            background-color: #3897f0;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 0;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .container button:hover {
+            background-color: #3578e5;
+        }
+
+        .error-handler {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .container a {
+            text-decoration: none;
+            color: #262626;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .container a:hover {
+            text-decoration: underline;
+        }
+
+        #forgotPasswordLink {
+            color: #3897f0;
+        }
+
+        #profilePicture {
+            display: block;
+            margin: 10px auto;
+        }
+
+        #caption, #bio {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #dbdbdb;
+            border-radius: 4px;
+        }
+.red-crushies {
+    color: red; /* Set the color to red */
+    /* Add any other styles you want for the crushies button here */
+}
+/* Add this CSS to style the view comments and view likers buttons */
+.view-comments-button,
+.view-likers-button {
+    color: #555; /* Set the color for the icons */
+    background-color: transparent; /* Make the buttons transparent */
+    border: none; /* Remove border */
+    cursor: pointer; /* Add a pointer cursor on hover */
+    padding: 0; /* Remove padding */
+    margin-right: 10px; /* Adjust spacing as needed */
+}
+
+/* Add this CSS code to style the profile picture */
+.profile-picture {
+    width: 40px; /* Adjust the width to your preference */
+    height: 40px; /* Adjust the height to your preference */
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer; /* Add cursor style to indicate interactivity */
+    transition: transform 0.2s; /* Add a smooth hover effect */
+}
+
+.profile-picture:hover {
+    transform: scale(1.1); /* Scale up the picture slightly on hover */
+}
+/* Style for the trending container */
+#trendContainer {
+    background-color: #ffffff; /* Background color */
+    border: 1px solid #e1e8ed; /* Border color */
+    border-radius: 8px; /* Rounded corners */
+    padding: 16px; /* Padding inside the container */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for a raised effect */
+    max-width: 300px; /* Limit the width to your desired size */
+}
+
+/* Style for the trending header (e.g., "Trending Words") */
+#trendContainer h3 {
+    font-size: 18px; /* Font size */
+    margin-bottom: 12px; /* Spacing below the header */
+    color: #1da1f2; /* Twitter's trending color */
+}
+
+/* Style for individual trending word items */
+#trendList {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    max-height: 200px; /* Set the maximum height for scrollable notifications */
+        overflow-y: auto; /* Enable vertical scrolling when content exceeds the container height */
+}
+
+#trendList li {
+    font-size: 16px; /* Font size for trending words */
+    margin-bottom: 8px; /* Spacing between trending words */
+    display: flex;
+    align-items: center;
+}
+
+#trendList a {
+    text-decoration: none; /* Remove underline for links */
+    color: #1da1f2; /* Twitter's link color for trending words */
+    margin-right: 8px; /* Spacing between word and count */
+}
+
+#trendList a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Style for the notifications list container */
+#notificationsPopup {
+    position: fixed;
+    top: 70px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+    width: 300px; /* Adjust the width as needed */
+    background-color:black;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 1;
+    display: none;
+}
+
+/* Style for the notifications list */
+#notificationsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 400px; /* Adjust the max height as needed */
+    overflow-y: auto;
+    max-height: 200px; /* Set the maximum height for scrollable notifications */
+        overflow-y: auto; /* Enable vertical scrolling when content exceeds the container height */
+}
+
+/* Style for each notification item */
+#notificationsList li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+}
+
+/* Style for profile pictures */
+#notificationsList img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Style for notification text */
+#notificationsList a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Style for notification text on hover */
+#notificationsList a:hover {
+    text-decoration: underline;
+}
+/* Style for other navigation buttons/icons */
+/* Style for the parent container of the navigation buttons/icons */
+.nav-buttons-container {
+    display: flex; /* Align the buttons horizontally */
+    align-items: center; /* Center align the buttons vertically */
+}
+
+/* Style for other navigation buttons/icons */
+.nav-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px; /* Adjust the font size */
+    color: #fff;
+    margin-right: 10px;
+    padding: 8px; /* Add padding for better clickability */
+    transition: color 0.3s ease;
+
+
+border-radius: 10px;
+}
+
+.nav-button:hover {
+    color: #0e5aee;
+}
+
+/* Style for notifications button */
+#notificationsButton {
+    font-size: 20px; /* Adjust the font size */
+    padding: 8px; /* Add padding for better clickability */
+    transition: color 0.3s ease;
+}
+/* Add this CSS to style the images within the post input */
+.posted-picture {
+    max-width: 100%; /* Limit the maximum width to the container's width */
+    max-height: 300px; /* Set a maximum height to control the image's size */
+    display: block; /* Remove any extra space around the image */
+    margin: 0 auto; /* Center the image horizontally */
+}
+
+/* Style for the post-input container */
+.post-input {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+/* Style for the caption textarea */
+#postCaption {
+    width: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+    resize: none; /* Prevent resizing of textarea */
+    font-size: 16px;
+    line-height: 1.4;
+    outline: none;
+}
+
+/* Style for the file input label */
+.file-label {
+    display: inline-block;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* Style for the post button */
+#postButton {
+    background-color:#cc0000;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 8px 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    
+}
+
+.post-button {
+        font-size: 24px; /* Adjust the font size to make the button bigger */
+        padding: 10px 20px; /* Adjust the padding to increase the button's clickable area */
+    }
+
+/* Style for the close button */
+#closePostPopupButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #888;
+}
+
+/* Style for the close button on hover */
+#closePostPopupButton:hover {
+    color: #333;
+}
+.streaming-button {
+            background-color:black;/* Red background color */
+            color: #FFFFFF; /* White text color */
+            padding: 10px 20px; /* Padding for the button */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Cursor on hover */
+        }
+
+        /* Style for the icon */
+        .icon {
+            margin-right: 5px; /* Space between icon and text */
+        }
+
+        .editprofilebtn
+        {
+            background-color:#cc0000;/* Red background color */
+            color: #FFFFFF; /* White text color */
+            padding: 5px 10px; /* Padding for the button */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer
+
+
+        }
+
+
+        
+
+    </style>
+</head>
+<body>
+
+    <br><br><br><br><br>
+<div id="loginPanel" class="container" style="display: none;">
+    <h1>Login</h1>
+    <input type="email" id="emailL" placeholder="Email">
+    <input type="password" id="passwordL" placeholder="Password">
+    <button id="submitL">Login</button>
+    <p id="errorHandlerL" class="error-handler"></p>
+    <p>Don't have an account? <a id="linkSignUp" href="#">Sign Up</a></p>
+    <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+</div>
+
+<div id="signUpPanel" style="display: none;" class="container">
+    <h1>Sign Up</h1>
+    <input type="text" id="nameS" placeholder="Name">
+    <input type="email" id="emailS" placeholder="Email">
+    <input type="password" id="passwordS" placeholder="Password">
+    <input type="password" id="cPasswordS" placeholder="Confirm Password">
+    <input type="file" id="profilePicture" accept="image/*">
+    <input type="text" id="caption" placeholder="Caption">
+    <input type="text" id="bio" placeholder="Bio"> <!-- Add bio input field -->
+    <button id="submitS">Sign Up</button>
+    <p id="errorHandlerS" class="error-handler"></p>
+    <p>Already have an account? <a id="linkLogin" href="#">Login</a></p>
+</div>
+
+<div id="loading-panel" style="display: none;" class="container">
+    <h1>Loading...</h1>
+</div>
+
+
+       
+<div class="top-nav">
+
+    <button id="backToProfile"         class="nav-button"><i class="fas fa-user"  ></i> </button>
+     <!-- Add a search icon and a hidden search bar -->
+     <button id="linkAllPosts" onclick="redirectToAllPosts()">
+        <i class="fas fa-compass"></i> 
+    </button>
+    
+
+     <div class="search-icon" onclick="redirectToAllPosts()">
+        <i class="fas fa-search"></i> <!-- Search icon -->
+    </div>
+    
+    
+    <div id="searchPopup" class="popup">
+        <!-- ... Your existing search popup content ... -->
+    </div>
+  
+   
+
+
+        <div class="user-profile">
+            <div  class="nav-buttons-container">
+<!-- Add a button to trigger the post input popup -->
+<button id="openPostPopupButton" class="nav-button"  style="background-color:black;">
+    <i class="fas fa-pen"    ></i>
+</button>
+
+
+          
+
+
+            <div class="user-profile">
+                <!-- Add the Notifications button here -->
+                <button id="notificationsButton"    class="nav-button" onclick="toggleNotifications()"   style="background-color: black;">
+                    <i class="fas fa-bell"></i> 
+                </button>
+            </div>
+
+      
+
+            </div>
+        </div>
+        
+
+
+    </div>
+
+</div>
+<br><br><br><br>
+
+
+<div class="search-bar" id="searchBar" style="display: none;"  >
+    <input type="text" id="searchInput" placeholder="Search and enjoy your fav topics .." oninput="searchPosts()" onkeydown="if(event.keyCode == 13) { event.preventDefault(); searchPosts(); }">
+    <button id="searchButton"        >Search</button>
+</div>
+
+<!-- Post input popup -->
+<div id="postPopup" class="popup">
+    <div class="popup-content">
+        <div class="post-input">
+            <textarea id="postCaption" placeholder="express your thoughts..."></textarea>
+            <label for="postPicture" class="file-label">
+                <i class="fas fa-paperclip"></i> 
+                <span></span>
+            </label>
+            <input type="file" id="postPicture" accept="image/*" style="display: none;">
+            <button id="postButton">
+                <i class="fas fa-paper-plane"></i>
+                <span></span>
+            </button>
+        </div>
+        <!-- Add a close button for the popup -->
+        <button id="closePostPopupButton" class="post-button">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+
+
+    
+    <div class="main-content">
+        <div class="posts-container" id="allPostsContainer">
+            <!-- List of posts will go here -->
+    
+    </div>
+
+        <div class="main-content">
+            <div class="posts-container" id="allPostsContainer">
+                <!-- List of posts will go here -->
+            </div>
+        </div>
+    </div>
+    
+        <br>
+        
+    </div>
+    <br>
+ 
+ 
+
+<!-- Add the notifications container -->
+<div id="notificationsPopup" class="popup">
+    <div class="popup-content">
+        <h3>Notifications</h3>
+        <button onclick="closeNotifications()">Close</button>
+        <ul id="notificationsList">
+            <!-- Notifications will be displayed here dynamically -->
+        </ul>
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+</div>
+<div>
+   
+    <!-- Add the trends popup container -->
+    <div id="trendsPopup" class="popup">
+        <div class="popup-content">
+            <h3>Trending Words</h3>
+            <button onclick="closeTrendsPopup()">Close</button>
+            <ul id="trendList">
+                <!-- Trending words will be displayed here dynamically -->
+            </ul>
+           
+        </div>
+    </div>
+
+<div id="allPostsPanel">
+ 
+    <div id="allPostsList"></div>
+  
+</div>
+
+
+
+
+   
+    <!-- Add other navigation buttons/icons here -->
+   
+
+<div id="profilePanel" style="display: none;" class="container">
+    <div class="user-info">
+        <img id="userProfilePicture" src="" alt="Profile Picture" class="profile-picture">
+        
+
+        <h1>Welcome, <span id="userName"></span>!</h1>
+    </div>
+
+    <p>Email: <span id="userEmail"></span></p>
+    <p id="userBio"></p> <!-- Display user's bio -->
+    <button id="editProfileButton">Edit Profile</button>
+    <div id="editProfileButtons" style="display: none;">
+        <button id="editNameButton">Edit Name</button>
+        <!-- ... rest of your profile panel content ... -->
+        <input type="file" id="newProfilePicture" accept="image/*">
+        <button id="updateProfilePicture" class="editprofilebtn">Update Profile Picture</button>
+        <button id="deleteProfilePicture" class="editprofilebtn">Delete Profile Picture</button>
+        <button id="updateBio" class="editprofilebtn">Update Bio</button>
+        <button id="logoutButton">Logout</button>
+        <button id="closeEditProfileButton" class="editprofilebtn">Close</button>
+    </div>
+
+</div>
+<br><br><br><br>
+
+  
+   
+
+   
+    <div id="postsList"></div>
+</div>
+
+
+
+
+<div id="allPostsPanel"  class="user-info" >
+    
+    <div id="allPostsList"></div>
+</div>
+
+<!-- Include Firebase JavaScript SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-storage.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<script>
+    // Initialize Firebase
+    var firebaseConfig = {
+        // Your Firebase config here
+          apiKey: "AIzaSyAVeabVGSO5Ru1u5MBccbZ03Onpul5_16Y",
+  authDomain: "nexyket.firebaseapp.com",
+  databaseURL: "https://nexyket-default-rtdb.firebaseio.com",
+  projectId: "nexyket",
+  storageBucket: "nexyket.appspot.com",
+  messagingSenderId: "398223201089",
+  appId: "1:398223201089:web:233e87df3e2755c80607c0",
+  measurementId: "G-TE9RNY1NTL"
+    };
+    firebase.initializeApp(firebaseConfig);
+    // Reference to Firebase Realtime Database
+const database = firebase.database();
+// Event handler for submitting dating data
+  // Get references to the countryCode and contact elements
+
+
+  function redirectToAllPosts() {
+    // Redirect to the desired URL (allposts.html in this case)
+    window.location.href = 'allposts.html';
+}
+
+const editProfileButton = document.getElementById('editProfileButton');
+        const editProfileButtons = document.getElementById('editProfileButtons');
+        const closeEditProfileButton = document.getElementById('closeEditProfileButton');
+
+        // Add click event listeners to toggle visibility
+        editProfileButton.addEventListener('click', () => {
+            editProfileButton.style.display = 'none'; // Hide the "Edit Profile" button
+            editProfileButtons.style.display = 'block'; // Show the edit buttons
+        });
+
+        closeEditProfileButton.addEventListener('click', () => {
+            editProfileButton.style.display = 'block'; // Show the "Edit Profile" button
+            editProfileButtons.style.display = 'none'; // Hide the edit buttons
+        });
+
+
+// Check if a user is currently signed in
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        const currentUserId = user.uid; // Get the current user's UID
+
+        // Reference to the "userProfiles" node for the current user
+        const userProfileRef = firebase.database().ref(`userProfiles/${currentUserId}`);
+
+        userProfileRef.once('value', snapshot => {
+            const userProfileData = snapshot.val();
+
+            if (userProfileData && userProfileData.profilePictureURL) {
+                const currentUserProfilePicture = document.getElementById('currentUserProfilePicture');
+                currentUserProfilePicture.src = userProfileData.profilePictureURL;
+            } else {
+                // Set a default profile picture URL if the user doesn't have one in their profile
+                const currentUserProfilePicture = document.getElementById('currentUserProfilePicture');
+                currentUserProfilePicture.src = 'URL_TO_DEFAULT_PROFILE_PICTURE';
+            }
+        });
+    } else {
+        // User is not signed in, you can handle this case accordingly
+    }
+});
+// Function to replace newline characters with <br> tags when displaying text
+function displayWithNewlines(text) {
+    return text.replace(/\n/g, '<br>');
+}
+
+// Assuming you have the following elements in your HTML:
+const postPictureInput = document.getElementById('postPicture');
+const postCaptionInput = document.getElementById('postCaption');
+const postButton = document.getElementById('postButton');
+
+// Add an event listener for the post button
+postButton.addEventListener('click', e => {
+    // Check if a user is signed in
+    const user = firebase.auth().currentUser;
+    if (!user) {
+        return alert("Please sign in to post.");  
+    }
+
+    // Get the current user's ID
+    const userId = user.uid;
+
+    const pictureFile = postPictureInput.files[0];
+    const caption = postCaptionInput.value;
+
+    if (!pictureFile && !caption.trim()) {
+        // Handle the case when neither a picture nor a caption is provided
+        return alert("Please select a picture or enter a caption to post.");
+    }
+
+    // Define a function to upload the picture to Firebase Storage
+    const uploadPicture = () => {
+        if (pictureFile) {
+            const storageRef = firebase.storage().ref().child(`posts/${userId}/${Date.now()}_${pictureFile.name}`);
+            
+            return storageRef.put(pictureFile)
+                .then(snapshot => snapshot.ref.getDownloadURL());
+        } else {
+            // Return a promise that resolves to null if no picture is provided
+            return Promise.resolve(null);
+        }
+    };
+
+    // Upload the picture (if provided) and then save the post data to the database
+    uploadPicture()
+        .then(downloadURL => {
+            // Save the post data to the database
+            const postData = {
+                caption: displayWithNewlines(caption), // Apply the function here
+                pictureURL: downloadURL, // This can be null if no picture is provided
+                likes: {}, // Initialize likes object
+                comments: [] // Initialize comments array
+            };
+
+            return firebase.database().ref(`userPosts/${userId}`).push(postData);
+        })
+        .then(() => {
+            // Clear the input fields
+            postPictureInput.value = '';
+            postCaptionInput.value = '';
+        })
+        .catch(error => {
+            console.error('Error posting picture:', error);
+        });
+
+        
+});
+
+
+
+
+
+// JavaScript to open and close the post input popup
+const openPostPopupButton = document.getElementById('openPostPopupButton');
+const closePostPopupButton = document.getElementById('closePostPopupButton');
+const postPopup = document.getElementById('postPopup');
+
+// Function to open the popup
+function openPostPopup() {
+    postPopup.style.display = 'block';
+}
+
+// Function to close the popup
+function closePostPopup() {
+    postPopup.style.display = 'none';
+}
+
+// Open the popup when the "New Post" button is clicked
+openPostPopupButton.addEventListener('click', openPostPopup);
+
+// Close the popup when the "Close" button is clicked
+closePostPopupButton.addEventListener('click', closePostPopup);
+
+
+
+
+// Function to toggle the visibility of the notifications container
+function toggleNotifications() {
+    const notificationsPopup = document.getElementById('notificationsPopup');
+    if (notificationsPopup.style.display === 'block') {
+        notificationsPopup.style.display = 'none';
+    } else {
+        notificationsPopup.style.display = 'block';
+        // Call a function to fetch and display notifications
+        fetchAndDisplayNotifications();
+    }
+}
+
+// Function to close the notifications container
+function closeNotifications() {
+    const notificationsPopup = document.getElementById('notificationsPopup');
+    notificationsPopup.style.display = 'none';
+}
+
+
+
+// Function to fetch and display notifications for likers
+function fetchAndDisplayNotifications() {
+    const database = firebase.database();
+    const currentUserId = firebase.auth().currentUser.uid;
+    const notificationsList = document.getElementById('notificationsList');
+
+    notificationsList.innerHTML = '';
+
+    // Reference to the "userPosts" node for the current user
+    const userPostsRef = database.ref(`userPosts/${currentUserId}`);
+
+    userPostsRef.on('child_added', postSnapshot => {
+        const postId = postSnapshot.key;
+        const post = postSnapshot.val();
+
+        if (post.likes) {
+            const likers = Object.keys(post.likes);
+            const likersCount = likers.length;
+
+            // Display names of up to 10 likers
+            const displayCount = likersCount > 10 ? 10 : likersCount;
+            const remainingCount = likersCount - displayCount;
+
+            // Create a list item for the notification
+            const listItem = document.createElement('li');
+            listItem.innerHTML = '';
+
+            for (let i = 0; i < displayCount; i++) {
+                const likerId = likers[i];
+                const likerProfileRef = database.ref(`userProfiles/${likerId}`);
+
+                likerProfileRef.once('value', likerSnapshot => {
+                    const likerData = likerSnapshot.val();
+                    if (likerData) {
+                        const senderName = likerData.name;
+                        const profilePictureURL = likerData.profilePictureURL; // Get the profile picture URL
+
+                        // Create a link to the liker's profile
+                        const likerLink = document.createElement('a');
+                        likerLink.href = `profile.html?userId=${likerId}`;
+                        
+                        // Create an image for the profile picture
+                        const profilePicture = document.createElement('img');
+                        profilePicture.src = profilePictureURL; // Set the profile picture URL
+                        profilePicture.alt = senderName; // Add alt text
+
+                        // Append the profile picture and sender name to the link
+                        likerLink.appendChild(profilePicture);
+                        likerLink.appendChild(document.createTextNode(senderName));
+
+                        listItem.appendChild(likerLink);
+
+                        if (i < displayCount - 1) {
+                            listItem.innerHTML += ', ';
+                        }
+                    }
+                });
+            }
+
+            if (remainingCount > 0) {
+                listItem.innerHTML += ` and ${remainingCount} others liked your post: ${post.caption}`;
+            } else {
+                listItem.innerHTML += ` liked your post: ${post.caption}`;
+            }
+
+
+            
+            notificationsList.appendChild(listItem);
+            
+        }
+
+        
+        // Positive Vibes Notification
+        if (post.positiveVibes) {
+            const positiveVibes = Object.keys(post.positiveVibes);
+            const positiveVibesCount = positiveVibes.length;
+
+            // Create a list item for the notification
+            const listItem = document.createElement('li');
+            listItem.innerHTML = '';
+
+            for (let i = 0; i < positiveVibesCount; i++) {
+                const positiveVibeId = positiveVibes[i];
+                const positiveVibeProfileRef = database.ref(`userProfiles/${positiveVibeId}`);
+
+                positiveVibeProfileRef.once('value', positiveVibeSnapshot => {
+                    const positiveVibeData = positiveVibeSnapshot.val();
+                    if (positiveVibeData) {
+                        const senderName = positiveVibeData.name;
+                        const profilePictureURL = positiveVibeData.profilePictureURL; // Get the profile picture URL
+
+                        // Create a link to the sender's profile
+                        const senderLink = document.createElement('a');
+                        senderLink.href = `profile.html?userId=${positiveVibeId}`;
+
+                        // Create an image for the profile picture
+                        const profilePicture = document.createElement('img');
+                        profilePicture.src = profilePictureURL; // Set the profile picture URL
+                        profilePicture.alt = senderName; // Add alt text
+
+                        // Append the profile picture and sender name to the link
+                        senderLink.appendChild(profilePicture);
+                        senderLink.appendChild(document.createTextNode(senderName));
+
+                        listItem.appendChild(senderLink);
+
+                        if (i < positiveVibesCount - 1) {
+                            listItem.innerHTML += ', ';
+                        }
+                    }
+                });
+            }
+
+            listItem.innerHTML += ` has positive vibes on your post: ${post.caption}`;
+            notificationsList.appendChild(listItem);
+        }
+
+        // Negative Vibes Notification
+        if (post.negativeVibes) {
+            const negativeVibes = Object.keys(post.negativeVibes);
+            const negativeVibesCount = negativeVibes.length;
+
+            // Create a list item for the notification
+            const listItem = document.createElement('li');
+            listItem.innerHTML = '';
+
+            for (let i = 0; i < negativeVibesCount; i++) {
+                const negativeVibeId = negativeVibes[i];
+                const negativeVibeProfileRef = database.ref(`userProfiles/${negativeVibeId}`);
+
+                negativeVibeProfileRef.once('value', negativeVibeSnapshot => {
+                    const negativeVibeData = negativeVibeSnapshot.val();
+                    if (negativeVibeData) {
+                        const senderName = negativeVibeData.name;
+                        const profilePictureURL = negativeVibeData.profilePictureURL; // Get the profile picture URL
+
+                        // Create a link to the sender's profile
+                        const senderLink = document.createElement('a');
+                        senderLink.href = `profile.html?userId=${negativeVibeId}`;
+
+                        // Create an image for the profile picture
+                        const profilePicture = document.createElement('img');
+                        profilePicture.src = profilePictureURL; // Set the profile picture URL
+                        profilePicture.alt = senderName; // Add alt text
+
+                        // Append the profile picture and sender name to the link
+                        senderLink.appendChild(profilePicture);
+                        senderLink.appendChild(document.createTextNode(senderName));
+
+                        listItem.appendChild(senderLink);
+
+                        if (i < negativeVibesCount - 1) {
+                            listItem.innerHTML += ', ';
+                        }
+                    }
+                });
+            }
+
+            listItem.innerHTML += ` has negative vibes on your post: ${post.caption}`;
+            notificationsList.appendChild(listItem);
+              }
+        
+    });
+}
+
+// Rest of your JavaScript code...
+
+// Call the fetchAndDisplayNotifications function when the page loads
+window.onload = function() {
+    fetchAndDisplayNotifications();
+};
+
+
+
+
+
+// Add an event listener to the "Edit Profile" button
+editProfileButton.addEventListener('click', () => {
+    // Display the profile editing fields and buttons
+    document.getElementById('newProfilePicture').style.display = 'block';
+    document.getElementById('updateProfilePicture').style.display = 'block';
+    document.getElementById('deleteProfilePicture').style.display = 'block';
+    document.getElementById('updateBio').style.display = 'block';
+
+    // Show the "Close" button
+    document.getElementById('closeEditProfileButton').style.display = 'block';
+
+    // Hide the "Edit Profile" button itself
+    editProfileButton.style.display = 'none';
+});
+
+//forgot password
+
+  const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+
+forgotPasswordLink.addEventListener('click', (e) => {
+    e.preventDefault(); // Prevent the default link behavior
+
+    const email = prompt('Please enter your email address to reset your password:');
+    
+    if (email) {
+        firebase.auth().sendPasswordResetEmail(email)
+            .then(() => {
+                alert('Password reset email sent! Check your email inbox.');
+            })
+            .catch((error) => {
+                alert(`Error sending password reset email: ${error.message}`);
+            });
+    }
+});
+// Add an event listener to the "Close" button
+closeEditProfileButton.addEventListener('click', () => {
+    // Hide the profile editing fields and buttons
+    document.getElementById('newProfilePicture').style.display = 'none';
+    document.getElementById('updateProfilePicture').style.display = 'none';
+    document.getElementById('deleteProfilePicture').style.display = 'none';
+    document.getElementById('updateBio').style.display = 'none';
+
+    // Show the "Edit Profile" button again
+    document.getElementById('editProfileButton').style.display = 'block';
+
+    // Hide the "Close" button itself
+    closeEditProfileButton.style.display = 'none';
+});
+
+
+
+
+    function redirectToAllPosts() {
+        window.location.href = 'allposts.html';
+    }
+
+    // Panels and form elements
+    const loginPanel = document.getElementById('loginPanel');
+    const signUpPanel = document.getElementById('signUpPanel');
+    const profilePanel = document.getElementById('profilePanel');
+    const allPostsPanel = document.getElementById('allPostsPanel');
+   
+    const bioInput = document.getElementById('bio'); // Get the bio input field
+    const postsList = document.getElementById('postsList');
+    const allPostsList = document.getElementById('allPostsList');
+
+    // Error handlers
+    let errorHandlerL = document.getElementById('errorHandlerL');
+    let errorHandlerS = document.getElementById('errorHandlerS');
+
+    // Loading panel
+    const loadingPanel = document.getElementById('loading-panel');
+
+    // Link events
+    const linkSignUp = document.getElementById('linkSignUp');
+    const linkLogin = document.getElementById('linkLogin');
+    const linkAllPosts = document.getElementById('linkAllPosts');
+
+    linkSignUp.addEventListener('click', e => {
+        loginPanel.style.display = 'none';
+        signUpPanel.style.display = 'block';
+    });
+
+    linkLogin.addEventListener('click', e => {
+        loginPanel.style.display = 'block';
+        signUpPanel.style.display = 'none';
+    });
+
+    linkAllPosts.addEventListener('click', e => {
+        loginPanel.style.display = 'none';
+        signUpPanel.style.display = 'none';
+        profilePanel.style.display = 'none';
+        allPostsPanel.style.display = 'block';
+        displayAllPosts();
+    });
+
+    // Log the user in
+    const emailL = document.getElementById('emailL');
+    const passwordL = document.getElementById('passwordL');
+    const submitL = document.getElementById('submitL');
+
+    submitL.addEventListener('click', e => {
+    loadingPanel.style.display = 'block';
+
+    let email = emailL.value;
+    let password = passwordL.value;
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(function(userCredential) {
+            // Redirect to movie.html after successful login
+            window.location.href = 'movie.html';
+        })
+        .catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+
+            loadingPanel.style.display = 'none';
+
+            errorHandlerL.innerHTML = errorMessage;
+        });
+});
+
+
+    // Register the user
+    const nameS = document.getElementById('nameS');
+    const emailS = document.getElementById('emailS');
+    const passwordS = document.getElementById('passwordS');
+    const cPasswordS = document.getElementById('cPasswordS');
+    const profilePictureInput = document.getElementById('profilePicture');
+    const captionInput = document.getElementById('caption');
+    const submitS = document.getElementById('submitS');
+    submitS.addEventListener('click', e => {
+    loadingPanel.style.display = 'block';
+
+    let name = nameS.value;
+    let email = emailS.value;
+    let password = passwordS.value;
+    let confirmPassword = cPasswordS.value;
+    let profilePicture = profilePictureInput.files[0];
+    let caption = captionInput.value;
+    let bio = bioInput.value;
+
+    if (password !== confirmPassword) {
+        loadingPanel.style.display = 'none';
+        errorHandlerS.innerHTML = "Passwords do not match.";
+    } else {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(function (userCredential) {
+                // Upload the profile picture to Firebase Storage
+                const userId = userCredential.user.uid;
+                const storageRef = firebase.storage().ref().child(`profilePictures/${userId}`);
+                return storageRef.put(profilePicture);
+            })
+            .then(function (snapshot) {
+                // Get the URL of the uploaded profile picture
+                return snapshot.ref.getDownloadURL();
+            })
+            .then(function (profilePictureURL) {
+                // Store user information in the Firebase Realtime Database
+                const userId = firebase.auth().currentUser.uid;
+                const userRef = firebase.database().ref(`userProfiles/${userId}`);
+                userRef.set({
+                    name: name,
+                    profilePictureURL: profilePictureURL,
+                    email: email,
+                });
+
+                // Update the user's profile with the profile picture URL and name
+                return firebase.auth().currentUser.updateProfile({
+                    photoURL: profilePictureURL,
+                    displayName: name,
+                });
+            })
+            .then(function () {
+                // Update the user's bio in the database
+                const userId = firebase.auth().currentUser.uid;
+                return firebase.database().ref(`userProfiles/${userId}/bio`).set(bio);
+            })
+            .then(function () {
+                // Redirect or perform other actions upon successful registration
+                loadingPanel.style.display = 'none';
+                signUpPanel.style.display = 'none';
+                profilePanel.style.display = 'block';
+                document.getElementById('userName').textContent = name;
+                document.getElementById('userEmail').textContent = email;
+                document.getElementById('userProfilePicture').src = firebase.auth().currentUser.photoURL;
+                document.getElementById('userBio').textContent = bio; // Display the user's bio
+            })
+            .catch(function (error) {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+
+                loadingPanel.style.display = 'none';
+
+                errorHandlerS.innerHTML = errorMessage;
+            });
+    }
+});
+// In your existing JavaScript code
+
+// Find the "Edit Name" button by its ID
+const editNameButton = document.getElementById('editNameButton');
+
+// Add an event listener to the "Edit Name" button
+editNameButton.addEventListener('click', () => {
+    const newName = prompt('Enter your new name:');
+    
+    if (newName !== null) {
+        // Update the user's display name in Firebase and the UI
+        const user = firebase.auth().currentUser;
+        
+        user.updateProfile({
+            displayName: newName,
+        }).then(() => {
+            // Update the displayed name in the UI
+            document.getElementById('userName').textContent = newName;
+        }).catch((error) => {
+            console.error('Error updating display name:', error);
+        });
+    }
+});
+
+    // Function to display user's posts
+   function displayUserPosts(userId) {
+    const userPostsRef = firebase.database().ref(`userPosts/${userId}`);
+
+    userPostsRef.on('value', snapshot => {
+        postsList.innerHTML = ''; // Clear previous posts
+
+        snapshot.forEach(postSnapshot => {
+            const post = postSnapshot.val();
+            const postKey = postSnapshot.key;
+            const postElement = document.createElement('div');
+            const likeButtonId = `like-${postKey}`;
+            const commentsDivId = `comments-${postKey}`;
+            const commentInputId = `comment-${postKey}`;
+
+            // Check if the current user has already liked this post
+            const likedByCurrentUser = post.likes && post.likes[userId];
+
+            postElement.innerHTML = `
+                <div class="post-container"  style="display: none;x   >
+                    
+                    <img src="${firebase.auth().currentUser.photoURL}" alt="User Profile Picture" class="profile-picture">
+                    <p class="user-name">${firebase.auth().currentUser.displayName}</p>
+                </div>
+                <div class="post">
+                <div class="container">
+                    ${post.pictureURL ? `<img src="${post.pictureURL}" class="posted-picture">` : ''}
+                    <p class="post-caption">${post.caption}</p>
+                </div>
+                <br><br>
+    <div class="post-actions">
+        <!-- Like and comment buttons go here -->
+        <!-- Update the "View Likers" button -->
+
+<div class="container">
+                    <button id="${likeButtonId}" onclick="likePost('${userId}', '${postKey}', '${likeButtonId}')">${likedByCurrentUser ? 'Liked' : 'Like'}</button>
+                    <span class="like-count" id="likeCount-${postKey}">${post.likesCount || 0 }likes</span>
+
+                   
+
+                    <div class="comment-toggle">
+    <button class="toggle-comment-button" onclick="toggleCommentSection('${userId}', '${postKey}')">
+        <i class="fas fa-comment"></i> <!-- FontAwesome comment icon -->
+    </button>
+    <div class="comment-section" id="commentSection-${postKey}" style="display: none;">
+        <input type="text" id="commentInput-${postKey}" placeholder="Add a comment...">
+        <button class="comment-button" onclick="addComment('${userId}', '${postKey}', 'commentInput-${postKey}')">
+            Send
+        </button>
+
+        <button class="view-comments-button" onclick="displayCommentsPopup('${userId}', '${postKey}')">
+    View Comments
+</button>
+
+
+<div class="comments-popup" id="commentsPopup-${postKey}">
+    <div class="comments-content">
+        <span class="close-button" onclick="closeCommentsPopup('${postKey}')">&times;</span>
+        <h2>Comments</h2>
+        <div id="commentsContainer-${postKey}">
+            <!-- Comments will be displayed here -->
+        </div>
+    </div>
+</div>
+
+
+    </div>
+</div>
+
+        </div>
+            `;
+
+            postsList.appendChild(postElement);
+
+            // Display the number of likes for the post
+            const likeCountSpan = document.createElement('span');
+          
+            postElement.appendChild(likeCountSpan);
+        });
+    });
+}
+
+
+function displayCommentsInPopup(userId, postKey) {
+    const commentsContent = document.getElementById('commentsContent');
+    const commentsRef = firebase.database().ref(`userPosts/${userId}/${postKey}/comments`);
+
+    commentsContent.innerHTML = ''; // Clear previous comments
+
+    commentsRef.on('child_added', snapshot => {
+        const comment = snapshot.val();
+        const commentElement = document.createElement('div');
+        commentElement.className = 'comment';
+
+        // Create elements for the comment content
+        const commentContent = document.createElement('div');
+        commentContent.className = 'comment-content';
+
+        const commentUsername = document.createElement('a');
+        commentUsername.href = `profile.html?userId=${comment.userId}`; // Link to commenter's profile page
+        commentUsername.className = 'comment-username';
+        commentUsername.textContent = comment.username;
+
+        const commentText = document.createElement('p');
+        commentText.className = 'comment-text';
+        commentText.textContent = comment.text;
+
+        // Append elements to the comment content
+        commentContent.appendChild(commentUsername);
+        commentContent.appendChild(commentText);
+
+        // Append the comment content to the comment element
+        commentElement.appendChild(commentContent);
+
+        commentsContent.appendChild(commentElement);
+    });
+}
+
+
+// Function to close the comments popup
+function closeCommentsPopup(postKey) {
+    const commentsPopup = document.getElementById(`commentsPopup-${postKey}`);
+    commentsPopup.style.display = 'none';
+}
+
+
+// Function to toggle the comment section visibility
+function toggleCommentSection(userId, postKey) {
+    const commentSection = document.getElementById(`commentSection-${postKey}`);
+    if (commentSection.style.display === 'none' || commentSection.style.display === '') {
+        commentSection.style.display = 'block';
+    } else {
+        commentSection.style.display = 'none';
+    }
+}
+
+// Modify the "Like" button function to only handle liking/unliking
+function likePost(userId, postKey) {
+    const user = firebase.auth().currentUser;
+
+    if (user) {
+        const postRef = firebase.database().ref(`userPosts/${userId}/${postKey}`);
+        postRef.transaction(function (post) {
+            if (post) {
+                if (!post.likes) {
+                    post.likes = {};
+                }
+
+                // Check if the current user has already liked this post
+                if (post.likes[user.uid]) {
+                    // User has already liked this post, remove the like
+                    delete post.likes[user.uid];
+                } else {
+                    // User has not liked this post, add the like
+                    post.likes[user.uid] = true;
+                }
+
+                // Update the like count
+                post.likesCount = Object.keys(post.likes).length;
+
+                return post;
+            }
+        });
+    }
+}
+
+    // Function to show comments for a post
+    function showComments(userId, postKey, commentsDivId) {
+        const commentsRef = firebase.database().ref(`userPosts/${userId}/${postKey}/comments`);
+
+        commentsRef.on('value', snapshot => {
+            const commentsDiv = document.getElementById(commentsDivId);
+            commentsDiv.innerHTML = ''; // Clear previous comments
+
+            snapshot.forEach(commentSnapshot => {
+                const comment = commentSnapshot.val();
+                const commentElement = document.createElement('div');
+                commentElement.textContent = comment;
+                commentsDiv.appendChild(commentElement);
+            });
+        });
+    }
+
+    // Function to add a comment to a post
+    function addComment(userId, postKey, commentInputId) {
+        const commentInput = document.getElementById(commentInputId);
+        const commentText = commentInput.value;
+
+        if (commentText.trim() !== '') {
+            const commentsRef = firebase.database().ref(`userPosts/${userId}/${postKey}/comments`);
+            commentsRef.push(commentText); // Push the comment to the comments array
+            commentInput.value = ''; // Clear the comment input
+        }
+    }
+
+    // Logout button event
+    const logoutButton = document.getElementById('logoutButton');
+    logoutButton.addEventListener('click', e => {
+        firebase.auth().signOut().then(function () {
+            // Sign-out successful.
+            profilePanel.style.display = 'none';
+            allPostsPanel.style.display = 'none';
+            loginPanel.style.display = 'block';
+        }).catch(function (error) {
+            // An error happened.
+        });
+    });
+
+    // Listener for changes in authentication state
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            // User is signed in.
+            loginPanel.style.display = 'none';
+            signUpPanel.style.display = 'none';
+            profilePanel.style.display = 'block';
+            allPostsPanel.style.display = 'none';
+            document.getElementById('userName').textContent = user.displayName; // Display user's name
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('userProfilePicture').src = user.photoURL;
+
+            // Get and display the user's bio from the database
+            const userId = user.uid;
+            const userBioRef = firebase.database().ref(`userProfiles/${userId}/bio`);
+            userBioRef.once('value').then(function (snapshot) {
+                const userBio = snapshot.val();
+                document.getElementById('userBio').textContent = userBio; // Display the user's bio
+            });
+
+            // Display user's posts
+            displayUserPosts(user.uid);
+        } else {
+            loginPanel.style.display = 'block';
+            signUpPanel.style.display = 'none';
+            profilePanel.style.display = 'none';
+            allPostsPanel.style.display = 'none';
+        }
+    });
+
+    // Update profile picture
+    const updateProfilePictureButton = document.getElementById('updateProfilePicture');
+    const newProfilePictureInput = document.getElementById('newProfilePicture');
+
+    updateProfilePictureButton.addEventListener('click', e => {
+        newProfilePictureInput.click();
+    });
+
+    newProfilePictureInput.addEventListener('change', e => {
+        const userId = firebase.auth().currentUser.uid;
+        const newProfilePicture = newProfilePictureInput.files[0];
+
+        if (!newProfilePicture) {
+            return;
+        }
+
+        // Upload the new profile picture to Firebase Storage
+        const storageRef = firebase.storage().ref().child(`profilePictures/${userId}`);
+        storageRef.put(newProfilePicture)
+            .then(snapshot => snapshot.ref.getDownloadURL())
+            .then(downloadURL => {
+                // Update the user's profile with the new profile picture URL
+                return firebase.auth().currentUser.updateProfile({
+                    photoURL: downloadURL,
+                });
+            })
+            .then(() => {
+                // Update the user's profile picture in the UI
+                document.getElementById('userProfilePicture').src = firebase.auth().currentUser.photoURL;
+            })
+            .catch(error => {
+                console.error('Error updating profile picture:', error);
+            });
+    });
+
+    // Delete profile picture
+    const deleteProfilePictureButton = document.getElementById('deleteProfilePicture');
+
+    deleteProfilePictureButton.addEventListener('click', e => {
+        const userId = firebase.auth().currentUser.uid;
+
+        // Delete the profile picture from Firebase Storage
+        const storageRef = firebase.storage().ref().child(`profilePictures/${userId}`);
+        storageRef.delete()
+            .then(() => {
+                // Update the user's profile with a null profile picture URL
+                return firebase.auth().currentUser.updateProfile({
+                    photoURL: null,
+                });
+            })
+            .then(() => {
+                // Update the user's profile picture in the UI
+                document.getElementById('userProfilePicture').src = '';
+            })
+            .catch(error => {
+                console.error('Error deleting profile picture:', error);
+            });
+    });
+
+    // Update user's bio
+    const updateBioButton = document.getElementById('updateBio');
+
+    updateBioButton.addEventListener('click', e => {
+        const userId = firebase.auth().currentUser.uid;
+        const newBio = prompt('Enter your new bio:');
+
+        if (newBio !== null) {
+            // Update the user's bio in the database
+            firebase.database().ref(`userProfiles/${userId}/bio`).set(newBio)
+                .then(() => {
+                    // Update the user's bio in the UI
+                    document.getElementById('userBio').textContent = newBio;
+                })
+                .catch(error => {
+                    console.error('Error updating bio:', error);
+                });
+        }
+    });
+    // Add this code where you are initializing Firebase and defining your user profile panel
+// Assuming you have a reference to the currently logged-in user
+const userId = firebase.auth().currentUser.uid;
+
+
+
+</script>
+</body>
+</html>

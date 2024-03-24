@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Upload</title>
+  <!-- Include Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage.js"></script>
+</head>
+<body>
+
+  <h1>Event Upload Form</h1>
+
+  <!-- Firebase configuration -->
+  <script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyAVeabVGSO5Ru1u5MBccbZ03Onpul5_16Y",
+  authDomain: "nexyket.firebaseapp.com",
+  databaseURL: "https://nexyket-default-rtdb.firebaseio.com",
+  projectId: "nexyket",
+  storageBucket: "nexyket.appspot.com",
+  messagingSenderId: "398223201089",
+  appId: "1:398223201089:web:233e87df3e2755c80607c0",
+  measurementId: "G-TE9RNY1NTL"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the database and storage
+    var database = firebase.database();
+    var storage = firebase.storage();
+  </script>
+
+  <!-- Form for event details and photo upload -->
+  <form id="eventForm">
+    <label for="eventName">Event Name:</label>
+    <input type="text" id="eventName" name="eventName" required><br>
+
+    <label for="eventVenue">Venue:</label>
+    <input type="text" id="eventVenue" name="eventVenue" required><br>
+
+    <label for="eventDate">Date:</label>
+    <input type="date" id="eventDate" name="eventDate" required><br>
+
+    <label for="eventTime">Time:</label>
+    <input type="time" id="eventTime" name="eventTime" required><br>
+
+    <label for="eventTheme">Theme:</label>
+    <input type="text" id="eventTheme" name="eventTheme" required><br>
+
+    <label for="eventPhoto">Upload Photo:</label>
+    <input type="file" id="eventPhoto" name="eventPhoto" accept="image/*" required><br>
+
+    <button type="button" onclick="uploadEvent()">Upload Event</button>
+  </form>
+
+  <script>
+    function uploadEvent() {
+    var eventName = document.getElementById('eventName').value;
+    var eventVenue = document.getElementById('eventVenue').value;
+    var eventDate = document.getElementById('eventDate').value;
+    var eventTime = document.getElementById('eventTime').value;
+    var eventTheme = document.getElementById('eventTheme').value;
+    var eventPhoto = document.getElementById('eventPhoto').files[0];
+
+    var eventKey = database.ref('events').push().key;
+
+    var photoRef = storage.ref().child(`event_photos/${eventKey}`);
+    photoRef.put(eventPhoto).then(snapshot => {
+      return snapshot.ref.getDownloadURL();
+    }).then(downloadURL => {
+      database.ref(`events/${eventKey}`).set({
+        name: eventName,
+        venue: eventVenue,
+        date: eventDate,
+        time: eventTime,
+        theme: eventTheme,
+        photoURL: downloadURL
+      });
+
+      // Display an alert after successful upload
+      alert('Event uploaded successfully!');
+      // You can redirect or perform other actions after successful upload
+    }).catch(error => {
+      console.error('Error uploading photo:', error);
+      alert('Error uploading event. Please try again.');
+    });
+  }
+  </script>
+
+</body>
+</html>

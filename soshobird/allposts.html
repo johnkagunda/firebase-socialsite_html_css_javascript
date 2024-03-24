@@ -1,0 +1,2163 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>All Posts</title>
+    <style>
+    .suggestions-section {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .suggestions-posts {
+            display: inline-block;
+            margin-right: 10px; /* Adjust spacing between posts as needed */
+        }
+.profile-info {
+    display: flex;
+    align-items: center;
+}
+
+/* Style the container for profile picture and name */
+.profile-picture-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Style the profile picture */
+.profile-picture {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Style the user name */
+.user-name {
+   /* Styles for the profile info container */
+.profile-info {
+    display: flex;
+    align-items: center;
+}
+
+/* Style the container for profile picture and name */
+.profile-picture-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Style the profile picture */
+/* Style the profile picture */
+.profile-picture {
+    width: 120px; /* Set the width to your desired size */
+    height: 120px; /* Set the height to your desired size */
+    border-radius: 50%;
+    margin-right: 20px;
+    object-fit: cover; /* Maintain aspect ratio and cover the entire space */
+    border: 3px solid #fff; /* Add a border to make it more appealing */
+}
+
+
+/* Style the user name */
+.user-name {
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333; /* You can adjust the color as needed */
+}
+
+    text-decoration: none;
+    color: #333; /* You can adjust the color as needed */
+}
+
+
+.user-link {
+    text-decoration: none; /* Remove the underline from the link */
+    color: inherit; /* Inherit the text color from the parent element */
+}
+
+.user-link:hover .user-name {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Style your search results container here */
+#searchResults {
+    /* Add your styles for the search results */
+    background-color: #0e5aee;
+}
+/* Style the search bar container and button */
+.search-bar {
+    display: flex;
+    align-items: center;
+    overflow-y: hidden; /* Prevent vertical scrolling */
+
+
+    position: fixed;
+}
+
+.search-bar input {
+    flex-grow: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 25px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.search-bar button {
+    background-color:white;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 8px 20px;
+}
+
+#searchButton:hover {
+    background-color: #555;
+}
+
+/* Vertical scrolling for allUsersContainer */
+.horizontal-scroll-container {
+    overflow-x: auto; /* Enable vertical scrolling */
+    max-height: 300px; /* Set the max height to control the scrollable area */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color:whites;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+/* Add this style to make the top-nav fixed */
+.top-nav {
+    position: fixed;
+    border: 10px;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color:black;/* Set the background color as needed */
+    color: #fff; /* Set the text color as needed */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    z-index: 2; /* Set an appropriate z-index to ensure it's above other content */
+    transition: background-color 0.3s ease; /* Add a smooth transition effect for background color */
+}
+
+.search-bar input {
+    background-color: #e1e8ed; /* Background color for the search input */
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px; /* Increase padding for better appearance */
+}
+
+.search-bar button {
+    background-color: #1da1f2; /* Twitter's blue button color */
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    padding: 10px 20px; /* Increase padding for better appearance */
+}
+
+
+/* Main content container */
+.content {
+    position: fixed;
+    max-width: 50px;
+    margin: 20px auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.left-sidebar {
+    flex: 1;
+    padding-right: 20px;
+    border-right: 1px solid #ccc;
+    display: none; /* Hide the left-sidebar by default */
+}
+
+
+.left-sidebar h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.left-sidebar .user-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.left-sidebar .user-card img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.left-sidebar .user-card span {
+    font-size: 16px;
+}
+
+/* Main content */
+.main-content {
+    flex: 2;
+}
+
+/* Posts */
+.post {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color:white;
+    border-radius: 8px;
+/* Original box-shadow */
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+/* Darker and cooler box-shadow */
+box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+
+}
+
+.post .post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Update profile picture styles */
+.post .post-header img {
+    width: 22px; /* Adjust the size as needed */
+    height: 22px; /* Adjust the size as needed */
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+/* Update username styles */
+.post .post-header h3 {
+    font-size: 16px; /* Adjust the font size as needed */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.post .post-content {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.post .post-image {
+    max-width: 110%;
+    margin-bottom: 10px;
+}
+
+.post .post-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post .post-actions button {
+    padding: 5px 10px;
+    background-color: #cc0000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.post .post-actions button:hover {
+    background-color: #0e5aee;
+}
+
+/* Style the like and comment buttons */
+.like-button, .comment-button {
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.like-button:hover, .comment-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Style the likers and comments containers */
+.likers, .comments {
+    margin-top: 10px;
+    max-height: 150px; /* Set a maximum height for the containers */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Style the individual liker/comment elements */
+.liker-element, .comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.liker-element img, .comment img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comment-content {
+    flex: 1;
+    padding: 10px;
+    background-color: #f2f3f5;
+    border-radius: 10px;
+}
+
+.comment-username {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.comment-text {
+    margin: 0;
+}
+
+
+
+
+
+/* Add this CSS to style the profile picture and username */
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-info img.profile-picture {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-info a.user-name {
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333; /* You can adjust the color as needed */
+}
+/* Style the like and comment buttons */
+.like-button, .comment-button {
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.like-button:hover, .comment-button:hover {
+    background-color: #e0e0e0;
+}
+
+/* Style the likers and comments containers */
+.likers, .comments {
+    margin-top: 10px;
+    max-height: 150px; /* Set a maximum height for the containers */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Style the individual liker/comment elements */
+.liker-element, .comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.liker-element img, .comment img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+
+.comment-content {
+    flex: 1;
+    padding: 10px;
+    background-color: #f2f3f5;
+    border-radius: 10px;
+}
+
+.comment-username {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.comment-text {
+    margin: 0;
+}
+/* Style the like and comment buttons like Instagram */
+.like-button, .comment-button {
+    background-color: green;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #262626; /* Text color */
+}
+
+.like-button:hover, .comment-button:hover {
+    background-color: rgba(0, 0, 0, 0.07); /* Light gray background on hover */
+    color: #333; /* Darker text color on hover */
+}
+
+.container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        /* Add this CSS to your existing styles or in a separate CSS file */
+
+.red-crushies {
+    color: red; /* Set the color to red */
+    /* Add any other styles you want for the crushies button here */
+}
+/* Add this CSS to style the view comments and view likers buttons */
+.view-comments-button,
+.view-likers-button {
+    color: #555; /* Set the color for the icons */
+    background-color: transparent; /* Make the buttons transparent */
+    border: none; /* Remove border */
+    cursor: pointer; /* Add a pointer cursor on hover */
+    padding: 0; /* Remove padding */
+    margin-right: 10px; /* Adjust spacing as needed */
+}
+
+/* Add this CSS code to style the profile picture */
+.profile-picture {
+    width: 40px; /* Adjust the width to your preference */
+    height: 40px; /* Adjust the height to your preference */
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer; /* Add cursor style to indicate interactivity */
+    transition: transform 0.2s; /* Add a smooth hover effect */
+}
+
+.profile-picture:hover {
+    transform: scale(1.1); /* Scale up the picture slightly on hover */
+}
+/* Style for the trending container */
+#trendContainer {
+    background-color: #ffffff; /* Background color */
+    border: 1px solid #e1e8ed; /* Border color */
+    border-radius: 8px; /* Rounded corners */
+    padding: 16px; /* Padding inside the container */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Shadow for a raised effect */
+    max-width: 300px; /* Limit the width to your desired size */
+}
+
+/* Style for the trending header (e.g., "Trending Words") */
+#trendContainer h3 {
+    font-size: 18px; /* Font size */
+    margin-bottom: 12px; /* Spacing below the header */
+    color: #1da1f2; /* Twitter's trending color */
+}
+
+/* Style for individual trending word items */
+#trendList {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+    max-height: 200px; /* Set the maximum height for scrollable notifications */
+        overflow-y: auto; /* Enable vertical scrolling when content exceeds the container height */
+}
+
+#trendList li {
+    font-size: 16px; /* Font size for trending words */
+    margin-bottom: 8px; /* Spacing between trending words */
+    display: flex;
+    align-items: center;
+}
+
+#trendList a {
+    text-decoration: none; /* Remove underline for links */
+    color: #1da1f2; /* Twitter's link color for trending words */
+    margin-right: 8px; /* Spacing between word and count */
+}
+
+#trendList a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Style for the notifications list container */
+#notificationsPopup {
+    position: fixed;
+    top: 70px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+    width: 300px; /* Adjust the width as needed */
+    background-color:black;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 1;
+    display: none;
+}
+
+/* Style for the notifications list */
+#notificationsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 400px; /* Adjust the max height as needed */
+    overflow-y: auto;
+    max-height: 200px; /* Set the maximum height for scrollable notifications */
+        overflow-y: auto; /* Enable vertical scrolling when content exceeds the container height */
+}
+
+/* Style for each notification item */
+#notificationsList li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+}
+
+/* Style for profile pictures */
+#notificationsList img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Style for notification text */
+#notificationsList a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Style for notification text on hover */
+#notificationsList a:hover {
+    text-decoration: underline;
+}
+/* Style for other navigation buttons/icons */
+/* Style for the parent container of the navigation buttons/icons */
+.nav-buttons-container {
+    display: flex; /* Align the buttons horizontally */
+    align-items: center; /* Center align the buttons vertically */
+}
+
+/* Style for other navigation buttons/icons */
+.nav-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px; /* Adjust the font size */
+    color: #fff;
+    margin-right: 10px;
+    padding: 8px; /* Add padding for better clickability */
+    transition: color 0.3s ease;
+
+
+border-radius: 10px;
+}
+
+.nav-button:hover {
+    color: #0e5aee;
+}
+
+/* Style for notifications button */
+#notificationsButton {
+    font-size: 20px; /* Adjust the font size */
+    padding: 8px; /* Add padding for better clickability */
+    transition: color 0.3s ease;
+}
+/* Add this CSS to style the images within the post input */
+.posted-picture {
+    max-width: 100%; /* Limit the maximum width to the container's width */
+    max-height: 300px; /* Set a maximum height to control the image's size */
+    display: block; /* Remove any extra space around the image */
+    margin: 0 auto; /* Center the image horizontally */
+}
+
+/* Style for the post-input container */
+.post-input {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+/* Style for the caption textarea */
+#postCaption {
+    width: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+    resize: none; /* Prevent resizing of textarea */
+    font-size: 16px;
+    line-height: 1.4;
+    outline: none;
+}
+
+/* Style for the file input label */
+.file-label {
+    display: inline-block;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* Style for the post button */
+#postButton {
+    background-color:#cc0000;
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 8px 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    
+}
+
+.post-button {
+        font-size: 24px; /* Adjust the font size to make the button bigger */
+        padding: 10px 20px; /* Adjust the padding to increase the button's clickable area */
+    }
+
+/* Style for the close button */
+#closePostPopupButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #888;
+}
+
+/* Style for the close button on hover */
+#closePostPopupButton:hover {
+    color: #333;
+}
+.streaming-button {
+            background-color:black;/* Red background color */
+            color: #FFFFFF; /* White text color */
+            padding: 10px 20px; /* Padding for the button */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Cursor on hover */
+        }
+
+        /* Style for the icon */
+        .icon {
+            margin-right: 5px; /* Space between icon and text */
+        }
+
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+<!-- Add this link to include Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+<!-- Add this link to include Font Awesome CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+</head>
+<body>
+<div id="loading-panel" style="display: none;">
+    <h1>Loading...</h1>
+</div>
+
+       
+ <div class="top-nav">
+    
+    <button id="backToProfile"         class="nav-button"><i class="fas fa-user"  ></i> </button>
+     <!-- Add a search icon and a hidden search bar -->
+     <div class="search-icon" onclick="toggleSearchBar()">
+        <i class="fas fa-search"></i> <!-- Search icon -->
+    </div>
+    
+    
+    <div id="searchPopup" class="popup">
+        <!-- ... Your existing search popup content ... -->
+    </div>
+  
+    
+ <!-- Button with an icon -->
+ <a href="movie.html" class="streaming-button">
+    <i class="fas fa-tv icon"></i> 
+</a>
+
+
+        <div class="user-profile">
+            <div  class="nav-buttons-container">
+<!-- Add a button to trigger the post input popup -->
+<button id="openPostPopupButton" class="nav-button"  style="background-color:black;">
+    <i class="fas fa-pen"    ></i>
+</button>
+
+
+<button class="nav-button" id="toggleTrendsButton" onclick="toggleTrends()" style="background-color:black;"          >
+    <i class="fas fa-fire"></i>
+</button>
+
+          
+
+
+            <div class="user-profile">
+                <!-- Add the Notifications button here -->
+                <button id="notificationsButton"    class="nav-button" onclick="toggleNotifications()"  style="background-color:black;">
+                    <i class="fas fa-bell"></i> 
+                </button>
+            </div>
+
+      
+
+   
+            </div>
+        </div>
+        
+
+
+    </div>
+
+</div>
+<br><br><br><br>
+
+
+<div class="search-bar" id="searchBar" style="display: none;"  >
+    <input type="text" id="searchInput" placeholder="Search and enjoy your fav topics .." oninput="searchPosts()" onkeydown="if(event.keyCode == 13) { event.preventDefault(); searchPosts(); }">
+    <button id="searchButton"        >Search</button>
+</div>
+
+<!-- Post input popup -->
+<div id="postPopup" class="popup">
+    <div class="popup-content">
+      <div class="post-input">
+    <textarea id="postCaption" placeholder="express your thoughts..."></textarea>
+    <label for="postPicture" class="file-label">
+        <i class="fas fa-paperclip"></i> 
+        <span></span>
+    </label>
+    <input type="file" id="postPicture" accept="image/*" style="display: none">
+    <div id="selectedPhotoContainer" style="display: none;">
+        <img id="selectedPhoto" alt="Selected Photo">
+    </div>
+    <button id="postButton" onclick="addNewPost()">
+        <i class="fas fa-paper-plane"></i>
+        <span></span>
+    </button>
+</div>
+<div class="posts-container" id="allPostsContainer">
+    <!-- List of posts will go here -->
+</div>
+
+        
+        <!-- Add a close button for the popup -->
+        <button id="closePostPopupButton" class="post-button">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+
+
+    
+    <div class="main-content">
+        <div class="posts-container" id="allPostsContainer">
+            <!-- List of posts will go here -->
+    
+    </div>
+
+        <div class="main-content">
+            <div class="posts-container" id="allPostsContainer">
+                <!-- List of posts will go here -->
+            </div>
+        </div>
+    </div>
+    
+        <br>
+        
+    </div>
+    <br>
+ 
+ 
+
+<!-- Add the notifications container -->
+<div id="notificationsPopup" class="popup">
+    <div class="popup-content">
+        <h3>Notifications</h3>
+        <button onclick="closeNotifications()">Close</button>
+        <ul id="notificationsList">
+            <!-- Notifications will be displayed here dynamically -->
+        </ul>
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+</div>
+<div>
+   
+    <!-- Add the trends popup container -->
+    <div id="trendsPopup" class="popup">
+        <div class="popup-content">
+            <h3>Trending Words</h3>
+            <button onclick="closeTrendsPopup()">Close</button>
+            <ul id="trendList">
+                <!-- Trending words will be displayed here dynamically -->
+            </ul>
+           
+        </div>
+    </div>
+
+<div id="allPostsPanel">
+ 
+    <div id="allPostsList"></div>
+  
+</div>
+
+
+
+
+   
+    <!-- Add other navigation buttons/icons here -->
+   
+    
+<!-- Include Firebase JavaScript SDK -->
+<!-- Replace with your Firebase configuration -->
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-storage.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<script>
+    // Initialize Firebase
+    var firebaseConfig = {
+        apiKey: "AIzaSyAVeabVGSO5Ru1u5MBccbZ03Onpul5_16Y",
+  authDomain: "nexyket.firebaseapp.com",
+  databaseURL: "https://nexyket-default-rtdb.firebaseio.com",
+  projectId: "nexyket",
+  storageBucket: "nexyket.appspot.com",
+  messagingSenderId: "398223201089",
+  appId: "1:398223201089:web:233e87df3e2755c80607c0",
+  measurementId: "G-TE9RNY1NTL"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+      // JavaScript function to redirect to market.html
+      function redirectToMarket() {
+            window.location.href = 'market.html';
+        }
+       
+    // ... (Your existing code)
+// Function to display the selected photo
+function displaySelectedPhoto() {
+    const pictureFile = postPictureInput.files[0];
+
+    if (pictureFile) {
+        // Create an image element to display the selected photo
+        const selectedImage = document.createElement('img');
+        selectedImage.src = URL.createObjectURL(pictureFile); // Set the source of the image
+        selectedImage.alt = 'Selected Photo';
+
+        // Append the image to the post input container
+        const postInput = document.querySelector('.post-input');
+        postInput.appendChild(selectedImage);
+    }
+}
+
+
+// Check if a user is currently signed in
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        const currentUserId = user.uid; // Get the current user's UID
+
+        // Reference to the "userProfiles" node for the current user
+        const userProfileRef = firebase.database().ref(`userProfiles/${currentUserId}`);
+
+        userProfileRef.once('value', snapshot => {
+            const userProfileData = snapshot.val();
+
+            if (userProfileData && userProfileData.profilePictureURL) {
+                const currentUserProfilePicture = document.getElementById('currentUserProfilePicture');
+                currentUserProfilePicture.src = userProfileData.profilePictureURL;
+            } else {
+                // Set a default profile picture URL if the user doesn't have one in their profile
+                const currentUserProfilePicture = document.getElementById('currentUserProfilePicture');
+                currentUserProfilePicture.src = 'URL_TO_DEFAULT_PROFILE_PICTURE';
+            }
+        });
+    } else {
+        // User is not signed in, you can handle this case accordingly
+    }
+});
+// Function to replace newline characters with <br> tags when displaying text
+function displayWithNewlines(text) {
+    return text.replace(/\n/g, '<br>');
+}
+// Assuming you have the following elements in your HTML:
+const postPictureInput = document.getElementById('postPicture');
+const postCaptionInput = document.getElementById('postCaption');
+const postButton = document.getElementById('postButton');
+
+// Add an event listener for the post button
+postButton.addEventListener('click', handlePost);
+
+// Function to handle posting a new post
+function handlePost() {
+    // Check if a user is signed in
+    const user = firebase.auth().currentUser;
+    if (!user) {
+        return alert("Please sign in to post.");
+    }
+
+    // Get the current user's ID
+    const userId = user.uid;
+
+    const pictureFile = postPictureInput.files[0];
+    const caption = postCaptionInput.value;
+
+    if (!pictureFile && !caption.trim()) {
+        // Handle the case when neither a picture nor a caption is provided
+        return alert("Please select a picture or enter a caption to post.");
+    }
+
+    // Fetch the latest post number from the database
+    fetchLatestPostNumber(userId)
+        .then(latestPostNumber => {
+            // Increment the latest post number by 1 for the new post
+            const postCount = latestPostNumber + 1;
+
+            // Upload the picture (if provided) and then save the post data to the database
+            uploadPicture(pictureFile, userId)
+                .then(downloadURL => {
+                    // Save the post data to the database with the updated post number
+                    const postData = {
+                        postNumber: postCount,
+                        caption: displayWithNewlines(caption),
+                        pictureURL: downloadURL || '', // This can be null if no picture is provided
+                        likes: {},
+                        comments: []
+                    };
+
+                    // Reference to the user's posts in the database
+                    const userPostsRef = firebase.database().ref(`userPosts/${userId}`);
+
+                    // Push the new post data to the database
+                    return userPostsRef.push(postData);
+                })
+                .then(() => {
+                    // Clear the input fields
+                    postPictureInput.value = '';
+                    postCaptionInput.value = '';
+                })
+                .catch(error => {
+                    console.error('Error posting picture:', error);
+                });
+        });
+}
+
+// Function to fetch the latest post number from the database
+function fetchLatestPostNumber(userId) {
+    return firebase.database().ref('userPosts').child(userId)
+        .orderByChild('postNumber')
+        .limitToLast(1)
+        .once('value')
+        .then(snapshot => {
+            const latestPost = snapshot.val();
+            if (latestPost) {
+                return latestPost[Object.keys(latestPost)].postNumber || 0;
+            } else {
+                return 0; // No posts found, start from 0
+            }
+        });
+}
+
+// Function to upload the picture to Firebase Storage
+function uploadPicture(pictureFile, userId) {
+    if (pictureFile) {
+        const storageRef = firebase.storage().ref().child(`posts/${userId}/${Date.now()}_${pictureFile.name}`);
+        
+        return storageRef.put(pictureFile)
+            .then(snapshot => snapshot.ref.getDownloadURL());
+    } else {
+        // Return a promise that resolves to null if no picture is provided
+        return Promise.resolve(null);
+    }
+}
+
+// Function to replace newline characters with <br> tags when displaying text
+function displayWithNewlines(text) {
+    return text.replace(/\n/g, '<br>');
+}
+
+
+
+
+
+
+// JavaScript to open and close the post input popup
+const openPostPopupButton = document.getElementById('openPostPopupButton');
+const closePostPopupButton = document.getElementById('closePostPopupButton');
+const postPopup = document.getElementById('postPopup');
+
+// Function to open the popup
+function openPostPopup() {
+    postPopup.style.display = 'block';
+}
+
+// Function to close the popup
+function closePostPopup() {
+    postPopup.style.display = 'none';
+}
+
+// Open the popup when the "New Post" button is clicked
+openPostPopupButton.addEventListener('click', openPostPopup);
+
+// Close the popup when the "Close" button is clicked
+closePostPopupButton.addEventListener('click', closePostPopup);
+
+
+
+
+// Function to toggle the visibility of the notifications container
+function toggleNotifications() {
+    const notificationsPopup = document.getElementById('notificationsPopup');
+    if (notificationsPopup.style.display === 'block') {
+        notificationsPopup.style.display = 'none';
+    } else {
+        notificationsPopup.style.display = 'block';
+        // Call a function to fetch and display notifications
+        fetchAndDisplayNotifications();
+    }
+}
+
+// Function to close the notifications container
+function closeNotifications() {
+    const notificationsPopup = document.getElementById('notificationsPopup');
+    notificationsPopup.style.display = 'none';
+}
+
+
+
+// Function to fetch and display notifications for likers
+function fetchAndDisplayNotifications() {
+    const database = firebase.database();
+    const currentUserId = firebase.auth().currentUser.uid;
+    const notificationsList = document.getElementById('notificationsList');
+
+    notificationsList.innerHTML = '';
+
+    // Reference to the "userPosts" node for the current user
+    const userPostsRef = database.ref(`userPosts/${currentUserId}`);
+
+    userPostsRef.on('child_added', postSnapshot => {
+        const postId = postSnapshot.key;
+        const post = postSnapshot.val();
+
+        if (post.likes) {
+            const likers = Object.keys(post.likes);
+            const likersCount = likers.length;
+
+            // Display names of up to 10 likers
+            const displayCount = likersCount > 10 ? 10 : likersCount;
+            const remainingCount = likersCount - displayCount;
+
+            // Create a list item for the notification
+            const listItem = document.createElement('li');
+            listItem.innerHTML = '';
+
+            for (let i = 0; i < displayCount; i++) {
+                const likerId = likers[i];
+                const likerProfileRef = database.ref(`userProfiles/${likerId}`);
+
+                likerProfileRef.once('value', likerSnapshot => {
+                    const likerData = likerSnapshot.val();
+                    if (likerData) {
+                        const senderName = likerData.name;
+                        const profilePictureURL = likerData.profilePictureURL; // Get the profile picture URL
+
+                        // Create a link to the liker's profile
+                        const likerLink = document.createElement('a');
+                        likerLink.href = `profile.html?userId=${likerId}`;
+                        
+                        // Create an image for the profile picture
+                        const profilePicture = document.createElement('img');
+                        profilePicture.src = profilePictureURL; // Set the profile picture URL
+                        profilePicture.alt = senderName; // Add alt text
+
+                        // Append the profile picture and sender name to the link
+                        likerLink.appendChild(profilePicture);
+                        likerLink.appendChild(document.createTextNode(senderName));
+
+                        listItem.appendChild(likerLink);
+
+                        if (i < displayCount - 1) {
+                            listItem.innerHTML += ', ';
+                        }
+                    }
+                });
+            }
+
+            if (remainingCount > 0) {
+                listItem.innerHTML += ` and ${remainingCount} others liked your post: ${post.caption}`;
+            } else {
+                listItem.innerHTML += ` liked your post: ${post.caption}`;
+            }
+
+
+            
+            notificationsList.appendChild(listItem);
+            
+        }
+
+        
+        // Positive Vibes Notification
+        if (post.positiveVibes) {
+            const positiveVibes = Object.keys(post.positiveVibes);
+            const positiveVibesCount = positiveVibes.length;
+
+            // Create a list item for the notification
+            const listItem = document.createElement('li');
+            listItem.innerHTML = '';
+
+            for (let i = 0; i < positiveVibesCount; i++) {
+                const positiveVibeId = positiveVibes[i];
+                const positiveVibeProfileRef = database.ref(`userProfiles/${positiveVibeId}`);
+
+                positiveVibeProfileRef.once('value', positiveVibeSnapshot => {
+                    const positiveVibeData = positiveVibeSnapshot.val();
+                    if (positiveVibeData) {
+                        const senderName = positiveVibeData.name;
+                        const profilePictureURL = positiveVibeData.profilePictureURL; // Get the profile picture URL
+
+                        // Create a link to the sender's profile
+                        const senderLink = document.createElement('a');
+                        senderLink.href = `profile.html?userId=${positiveVibeId}`;
+
+                        // Create an image for the profile picture
+                        const profilePicture = document.createElement('img');
+                        profilePicture.src = profilePictureURL; // Set the profile picture URL
+                        profilePicture.alt = senderName; // Add alt text
+
+                        // Append the profile picture and sender name to the link
+                        senderLink.appendChild(profilePicture);
+                        senderLink.appendChild(document.createTextNode(senderName));
+
+                        listItem.appendChild(senderLink);
+
+                        if (i < positiveVibesCount - 1) {
+                            listItem.innerHTML += ', ';
+                        }
+                    }
+                });
+            }
+
+            listItem.innerHTML += ` has positive vibes on your post: ${post.caption}`;
+            notificationsList.appendChild(listItem);
+        }
+
+        // Negative Vibes Notification
+        if (post.negativeVibes) {
+            const negativeVibes = Object.keys(post.negativeVibes);
+            const negativeVibesCount = negativeVibes.length;
+
+            // Create a list item for the notification
+            const listItem = document.createElement('li');
+            listItem.innerHTML = '';
+
+            for (let i = 0; i < negativeVibesCount; i++) {
+                const negativeVibeId = negativeVibes[i];
+                const negativeVibeProfileRef = database.ref(`userProfiles/${negativeVibeId}`);
+
+                negativeVibeProfileRef.once('value', negativeVibeSnapshot => {
+                    const negativeVibeData = negativeVibeSnapshot.val();
+                    if (negativeVibeData) {
+                        const senderName = negativeVibeData.name;
+                        const profilePictureURL = negativeVibeData.profilePictureURL; // Get the profile picture URL
+
+                        // Create a link to the sender's profile
+                        const senderLink = document.createElement('a');
+                        senderLink.href = `profile.html?userId=${negativeVibeId}`;
+
+                        // Create an image for the profile picture
+                        const profilePicture = document.createElement('img');
+                        profilePicture.src = profilePictureURL; // Set the profile picture URL
+                        profilePicture.alt = senderName; // Add alt text
+
+                        // Append the profile picture and sender name to the link
+                        senderLink.appendChild(profilePicture);
+                        senderLink.appendChild(document.createTextNode(senderName));
+
+                        listItem.appendChild(senderLink);
+
+                        if (i < negativeVibesCount - 1) {
+                            listItem.innerHTML += ', ';
+                        }
+                    }
+                });
+            }
+
+            listItem.innerHTML += ` has negative vibes on your post: ${post.caption}`;
+            notificationsList.appendChild(listItem);
+              }
+        
+    });
+}
+
+// Rest of your JavaScript code...
+
+// Call the fetchAndDisplayNotifications function when the page loads
+window.onload = function() {
+    fetchAndDisplayNotifications();
+};
+
+
+// Panels and form elements
+const allPostsPanel = document.getElementById('allPostsPanel');
+const allPostsList = document.getElementById('allPostsList');
+const loadingPanel = document.getElementById('loading-panel');
+
+// Back to Profile button
+const backToProfileButton = document.getElementById('backToProfile');
+backToProfileButton.addEventListener('click', () => {
+    window.location.href = 'index.html'; // Replace with the path to your profile page
+});
+// Function to toggle likers' names and profile pictures
+function toggleLikers(button) {
+    const postKey = button.getAttribute('data-post-key');
+    const likersContainer = document.getElementById(`likers-${postKey}`);
+
+    if (likersContainer.style.display === 'none' || likersContainer.style.display === '') {
+        likersContainer.style.display = 'block';
+        button.textContent = 'Hide Likers';
+    } else {
+        likersContainer.style.display = 'none';
+        button.textContent = 'View Likers';
+    }
+}
+
+
+//Function to display all posts
+function displayAllPosts() {
+    const allPostsRef = firebase.database().ref('userPosts');
+
+    allPostsRef.on('value', snapshot => {
+        allPostsList.innerHTML = ''; // Clear previous posts
+        snapshot.forEach(userSnapshot => {
+            const userId = userSnapshot.key;
+            userSnapshot.forEach(postSnapshot => {
+                const post = postSnapshot.val();
+                const postKey = postSnapshot.key;
+                const postElement = document.createElement('div');
+                postElement.className = 'post-element';
+
+               
+
+                // Fetch user profile data
+                const userProfilesRef = firebase.database().ref(`userProfiles/${userId}`);
+                userProfilesRef.once('value', userSnapshot => {
+                    const userData = userSnapshot.val();
+                    if (userData) {
+                        postElement.innerHTML = `
+                            <div class="post-container">
+                                <div class="post">
+                                    <div class="container">
+                                        <div class="user-info">
+                                            <div class="profile-info">
+                                                <a href="profile.html?userId=${userId}" class="user-link">
+                                                    <div>
+                                                        <img src="${userData.profilePictureURL}" alt="Profile Picture" class="profile-picture">
+                                                        <p class="user-name">${userData.name}</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+
+        <!-- Post content goes here -->
+        <div class="post-content">
+                                            ${post.pictureURL ? `<img src="${post.pictureURL}" class="posted-picture">` : ''}
+                                            <p class="post-caption">${post.caption}</p>
+                                        </div>
+                                    </div>
+                                    <br>
+    <div class="post-actions">
+        <!-- Like and comment buttons go here -->
+        <!-- Update the "View Likers" button -->
+
+<div class="container">
+    <!-- Inside the post content structure -->
+<div class="post-actions">
+    <!-- Like and comment buttons go here -->
+    <!-- Like button with heart icon -->
+<button class="like-button" id="likeButton-${postKey}" onclick="likePost('${userId}', '${postKey}')">
+    <i class="fas fa-heart"></i> <!-- Heart icon for like -->
+</button>
+
+    <span class="like-count" id="likeCount-${postKey}">${post.likesCount || 0 }likes</span>
+
+
+    <button class="negative-vibe-button" id="negativeVibeButton-${postKey}" onclick="negativeVibePost('${userId}', '${postKey}')">
+        <i class="far fa-thumbs-down"></i> <!-- Thumbs-down icon for negative vibe --> 
+    </button>
+
+    <span class="negative-vibe-count" id="negativeVibeCount-${postKey}">${post.negativeVibeCount || 0} negative vibes</span>
+
+
+
+
+
+    
+    <button class="view-likers-button" id="viewLikersButton-${postKey}" onclick="displayLikersInPopup('${userId}', '${postKey}', this)">
+        <i class="fas fa-eye"></i> <!-- Eye icon for view likers --> 
+    </button>
+  
+   
+</div>
+<br>
+
+<div class="comment-toggle">
+    <button class="toggle-comment-button" onclick="toggleCommentSection('${userId}', '${postKey}')">
+        <i class="fas fa-comment"></i> <!-- FontAwesome comment icon -->
+    </button>
+    <div class="comment-section" id="commentSection-${postKey}" style="display: none;">
+        <input type="text" id="commentInput-${postKey}" placeholder="Add a comment...">
+        <button class="comment-button" onclick="addComment('${userId}', '${postKey}', 'commentInput-${postKey}')">
+            Send
+        </button>
+        <button class="view-comments-button" onclick="viewComments('${userId}', '${postKey}')">
+            View Comments
+        </button>
+    </div>
+</div>
+
+
+        
+        <div id="likersPopup" class="popup">
+    <div class="popup-content">
+        <h2>Likers</h2>
+        <div id="likersContent"></div>
+        <span class="close" onclick="closeLikersPopup()">&times;</span>
+
+    </div>
+
+
+</div>
+<!-- Comments Popup -->
+<div id="commentsPopup" class="popup">
+    <div class="popup-content">
+        <h2>Comments</h2>
+        <div id="commentsContent"></div>
+        <span class="close" onclick="closeCommentsPopup()">&times;</span>
+    </div>
+</div>
+
+
+</div>
+
+
+
+                        <!-- Add a wrapper for likers with an id and data attribute to store the postKey -->
+                       
+                        `;
+                       
+                allPostsList.appendChild(postElement);
+
+                        // Check if the current user has already liked this post
+                        const user = firebase.auth().currentUser;
+                        const likeButton = postElement.querySelector(`#likeButton-${postKey}`);
+                        if (user && post.likes && post.likes[user.uid]) {
+                            likeButton.classList.add('liked');
+                        }
+
+                        // Call function to display likers
+                        displayLikers(userId, postKey);
+                    }
+                });
+            });
+        });
+    });
+}
+
+
+function calculateTimeAgo(timestamp) {
+    const now = Date.now(); // Current timestamp in milliseconds
+    const postTime = timestamp * 1000; // Convert timestamp to milliseconds
+    const timeDifference = now - postTime;
+
+    // Define time intervals in milliseconds
+    const minute = 60 * 1000;
+    const hour = 60 * minute;
+    const day = 24 * hour;
+    const week = 7 * day;
+    const month = 30 * day;
+    const year = 365 * day;
+
+    // Determine the appropriate time unit and calculate the time difference
+    if (timeDifference < minute) {
+        return 'Just now';
+    } else if (timeDifference < hour) {
+        const minutes = Math.floor(timeDifference / minute);
+        return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+    } else if (timeDifference < day) {
+        const hours = Math.floor(timeDifference / hour);
+        return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+    } else if (timeDifference < week) {
+        const days = Math.floor(timeDifference / day);
+        return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+    } else if (timeDifference < month) {
+        const weeks = Math.floor(timeDifference / week);
+        return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+    } else if (timeDifference < year) {
+        const months = Math.floor(timeDifference / month);
+        return `${months} ${months === 1 ? 'month' : 'months'} ago`;
+    } else {
+        const years = Math.floor(timeDifference / year);
+        return `${years} ${years === 1 ? 'year' : 'years'} ago`;
+    }
+}
+
+
+
+// Function to toggle the comment section visibility
+function toggleCommentSection(userId, postKey) {
+    const commentSection = document.getElementById(`commentSection-${postKey}`);
+    if (commentSection.style.display === 'none' || commentSection.style.display === '') {
+        commentSection.style.display = 'block';
+    } else {
+        commentSection.style.display = 'none';
+    }
+}
+
+
+    // Function to display posts with a specific word when a trend is clicked
+    function displayPostsByWord(word) {
+        const postsRef = firebase.database().ref('userPosts');
+
+        postsRef.once('value', snapshot => {
+            const allPosts = [];
+
+            snapshot.forEach(userSnapshot => {
+                userSnapshot.forEach(postSnapshot => {
+                    const post = postSnapshot.val();
+                    if (post.caption.toLowerCase().includes(word.toLowerCase())) {
+                        allPosts.push(post);
+                    }
+                });
+            });
+
+            // Clear previous posts
+            const allPostsList = document.getElementById('allPostsList');
+            allPostsList.innerHTML = '';
+
+            // Render the posts in your UI
+            allPosts.forEach(post => {
+    const postElement = document.createElement('div');
+    postElement.className = 'post-element';
+
+    // Create HTML elements to display the post content
+    const postImage = document.createElement('img');
+    postImage.src = post.pictureURL; // Assuming 'pictureURL' holds the image URL
+
+    const postCaption = document.createElement('p');
+    postCaption.textContent = post.caption;
+
+    // Create Like button with count
+    const likeButton = document.createElement('button');
+    likeButton.className = 'like-button';
+    likeButton.innerHTML = `<i class="fas fa-heart"></i> Likes`;
+    // Add an event listener to handle the like button click
+    likeButton.addEventListener('click', () => {
+        // Handle like button click here
+        // You can call a function like 'likePost(post)' to handle the like action
+    });
+
+    const likeCount = document.createElement('span');
+    likeCount.className = 'like-count';
+    likeCount.textContent = post.likesCount || 0; // Assuming 'likesCount' holds the like count
+
+    // Create Crushies button with count
+    const crushiesButton = document.createElement('button');
+    crushiesButton.className = 'crushies-button';
+    crushiesButton.innerHTML = `<i class="fas fa-heartbeat"></i> Crushies`;
+    // Add an event listener to handle the crushies button click
+    crushiesButton.addEventListener('click', () => {
+        // Handle crushies button click here
+        // You can call a function like 'crushiesPost(post)' to handle the crushies action
+    });
+
+    const crushiesCount = document.createElement('span');
+    crushiesCount.className = 'crushies-count';
+    crushiesCount.textContent = post.crushiesCount || 0; // Assuming 'crushiesCount' holds the crushies count
+
+    // Create View Likers button
+    const viewLikersButton = document.createElement('button');
+    viewLikersButton.className = 'view-likers-button';
+    viewLikersButton.innerHTML = `<i class="fas fa-eye"></i> View Likers`;
+    // Add an event listener to handle the view likers button click
+    viewLikersButton.addEventListener('click', () => {
+        // Handle view likers button click here
+        // You can call a function like 'displayLikers(post)' to display the likers in a popup
+    });
+
+    // Create Positive Vibe button with count
+    const positiveVibeButton = document.createElement('button');
+    positiveVibeButton.className = 'positive-vibe-button';
+    positiveVibeButton.innerHTML = `<i class="far fa-thumbs-up"></i> Positive Vibe`;
+    // Add an event listener to handle the positive vibe button click
+    positiveVibeButton.addEventListener('click', () => {
+        // Handle positive vibe button click here
+        // You can call a function like 'positiveVibePost(post)' to handle the positive vibe action
+    });
+
+    const positiveVibeCount = document.createElement('span');
+    positiveVibeCount.className = 'positive-vibe-count';
+    positiveVibeCount.textContent = post.positiveVibeCount || 0; // Assuming 'positiveVibeCount' holds the positive vibe count
+
+    // Create Negative Vibe button with count
+    const negativeVibeButton = document.createElement('button');
+    negativeVibeButton.className = 'negative-vibe-button';
+    negativeVibeButton.innerHTML = `<i class="far fa-thumbs-down"></i> Negative Vibe`;
+    // Add an event listener to handle the negative vibe button click
+    negativeVibeButton.addEventListener('click', () => {
+        // Handle negative vibe button click here
+        // You can call a function like 'negativeVibePost(post)' to handle the negative vibe action
+    });
+
+    const negativeVibeCount = document.createElement('span');
+    negativeVibeCount.className = 'negative-vibe-count';
+    negativeVibeCount.textContent = post.negativeVibeCount || 0; // Assuming 'negativeVibeCount' holds the negative vibe count
+
+    // Customize the structure of each post element
+    postElement.appendChild(postImage);
+    postElement.appendChild(postCaption);
+    postElement.appendChild(likeButton);
+    postElement.appendChild(likeCount);
+    postElement.appendChild(crushiesButton);
+    postElement.appendChild(crushiesCount);
+    postElement.appendChild(viewLikersButton);
+    postElement.appendChild(positiveVibeButton);
+    postElement.appendChild(positiveVibeCount);
+    postElement.appendChild(negativeVibeButton);
+    postElement.appendChild(negativeVibeCount);
+
+    // Append the post element to the list
+    allPostsList.appendChild(postElement);
+            });
+        });
+    }
+
+    // Function to display trending words
+    function displayTrendingWords() {
+        const allPostsRef = firebase.database().ref('userPosts');
+
+        allPostsRef.on('value', snapshot => {
+            const captions = [];
+
+            // Extract captions from posts
+            snapshot.forEach(userSnapshot => {
+                userSnapshot.forEach(postSnapshot => {
+                    const post = postSnapshot.val();
+                    captions.push(post.caption);
+                });
+            });
+
+            // Combine all captions into a single string
+            const captionsText = captions.join(' ').toLowerCase();
+
+            // Split the text into words
+            const words = captionsText.split(/\s+/);
+
+            // Count the frequency of each word
+            const wordCount = {};
+            words.forEach(word => {
+                if (wordCount[word]) {
+                    wordCount[word]++;
+                } else {
+                    wordCount[word] = 1;
+                }
+            });
+
+            // Convert wordCount object to an array of objects for sorting
+            const trendingWords = Object.keys(wordCount).map(word => ({
+                word,
+                count: wordCount[word]
+            }));
+
+            // Sort the trending words by count in descending order
+            trendingWords.sort((a, b) => b.count - a.count);
+
+            // Display the trending words in a list
+            const trendList = document.getElementById('trendList');
+            trendList.innerHTML = '';
+
+            trendingWords.forEach(trend => {
+                const listItem = document.createElement('li');
+                const wordLink = document.createElement('a');
+                wordLink.textContent = `${trend.word} (${trend.count})`;
+                wordLink.href = '#';
+                listItem.appendChild(wordLink);
+
+                // Add a click event listener to the word link
+                wordLink.addEventListener('click', () => {
+                    displayPostsByWord(trend.word);
+                });
+
+                trendList.appendChild(listItem);
+            });
+        });
+    }
+
+    // Toggle trends popup
+    let trendsVisible = false;
+    function toggleTrends() {
+        const trendPopup = document.getElementById('trendPopup');
+        const toggleTrendsButton = document.getElementById('toggleTrendsButton');
+
+        if (trendsVisible) {
+            trendPopup.style.display = 'none';
+            toggleTrendsButton.textContent = 'Show Trends';
+        } else {
+            displayTrendingWords();
+            trendPopup.style.display = 'block';
+            toggleTrendsButton.textContent = 'Hide Trends';
+        }
+
+        trendsVisible = !trendsVisible;
+    }
+function openTrendsPopup() {
+            const trendsPopup = document.getElementById('trendsPopup');
+            trendsPopup.style.display = 'block';
+            displayTrendingWords(); // Populate the trends content
+        }
+        
+        // Add this function to close the trends popup
+        function closeTrendsPopup() {
+            const trendsPopup = document.getElementById('trendsPopup');
+            trendsPopup.style.display = 'none';
+        }
+        
+        // Modify the toggleTrends function to open the trends popup
+        function toggleTrends() {
+            openTrendsPopup();
+        }
+
+function searchPosts() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const allPosts = document.querySelectorAll('.post-element');
+
+    allPosts.forEach(postElement => {
+        const postCaption = postElement.querySelector('.post-caption').textContent.toLowerCase();
+        const userName = postElement.querySelector('.user-name').textContent.toLowerCase();
+
+        if (postCaption.includes(searchInput) || userName.includes(searchInput)) {
+            postElement.style.display = 'block';
+        } else {
+            postElement.style.display = 'none';
+        }
+    });
+}
+
+// Call this function to display all posts when the page loads
+displayAllPosts();
+
+
+// Function to handle "Positive Vibe" button
+function positiveVibePost(userId, postKey) {
+    const user = firebastge.auth().currentUser;
+
+    if (user) {
+        const postRef = firebase.database().ref(`userPosts/${userId}/${postKey}`);
+        postRef.transaction(function (post) {
+            if (post) {
+                if (!post.positiveVibes) {
+                    post.positiveVibes = {};
+                }
+
+                // Check if the current user has already given positive vibes to this post
+                if (post.positiveVibes[user.uid]) {
+                    // User has already given positive vibes, remove it
+                    delete post.positiveVibes[user.uid];
+                } else {
+                    // User has not given positive vibes, add it
+                    post.positiveVibes[user.uid] = true;
+                }
+
+                // Update the positive vibe count
+                post.positiveVibeCount = Object.keys(post.positiveVibes).length;
+
+                return post;
+            }
+        });
+    }
+}
+
+// Function to handle "Negative Vibe" button
+function negativeVibePost(userId, postKey) {
+    const user = firebase.auth().currentUser;
+
+    if (user) {
+        const postRef = firebase.database().ref(`userPosts/${userId}/${postKey}`);
+        postRef.transaction(function (post) {
+            if (post) {
+                if (!post.negativeVibes) {
+                    post.negativeVibes = {};
+                }
+
+                // Check if the current user has already given negative vibes to this post
+                if (post.negativeVibes[user.uid]) {
+                    // User has already given negative vibes, remove it
+                    delete post.negativeVibes[user.uid];
+                } else {
+                    // User has not given negative vibes, add it
+                    post.negativeVibes[user.uid] = true;
+                }
+
+                // Update the negative vibe count
+                post.negativeVibeCount = Object.keys(post.negativeVibes).length;
+
+                return post;
+            }
+        });
+    }
+}
+
+
+// Function to display Crushies
+function displayCrushies(userId, postKey, buttonElement) {
+    const crushiesContainer = document.getElementById(`crushies-container-${postKey}`);
+    const crushiesRef = firebase.database().ref(`userPosts/${userId}/${postKey}/crushies`);
+    
+    crushiesContainer.innerHTML = ''; // Clear previous crushies
+
+    crushiesRef.once('value', snapshot => {
+        const crushies = snapshot.val();
+        if (crushies) {
+            Object.keys(crushies).forEach(crushieUserId => {
+                const crushieUserRef = firebase.database().ref(`users/${crushieUserId}`);
+                crushieUserRef.once('value', crushieSnapshot => {
+                    const crushieUserData = crushieSnapshot.val();
+                    if (crushieUserData) {
+                        const crushieUserName = crushieUserData.displayName;
+                        const crushieUserElement = document.createElement('div');
+                        crushieUserElement.textContent = crushieUserName;
+                        crushiesContainer.appendChild(crushieUserElement);
+                    }
+                });
+            });
+        }
+    });
+
+    // Toggle the visibility of the crushies container when the button is clicked
+    if (crushiesContainer.style.display === 'none' || crushiesContainer.style.display === '') {
+        crushiesContainer.style.display = 'block';
+    } else {
+        crushiesContainer.style.display = 'none';
+    }
+}
+
+// Function to handle "Crushies" button
+function crushiesPost(userId, postKey) {
+    const user = firebase.auth().currentUser;
+
+    if (user) {
+        const postRef = firebase.database().ref(`userPosts/${userId}/${postKey}`);
+        postRef.transaction(function (post) {
+            if (post) {
+                if (!post.crushies) {
+                    post.crushies = {};
+                }
+
+                // Check if the current user has already crushed this post
+                if (post.crushies[user.uid]) {
+                    // User has already crushed this post, remove the crushie
+                    delete post.crushies[user.uid];
+                } else {
+                    // User has not crushed this post, add the crushie
+                    post.crushies[user.uid] = true;
+                }
+
+                // Update the crushie count
+                post.crushiesCount = Object.keys(post.crushies).length;
+
+                return post;
+            }
+        });
+    }
+}
+
+
+
+function addComment(userId, postKey, commentInputId) {
+    const user = firebase.auth().currentUser;
+    const commentInput = document.getElementById(commentInputId);
+    const commentText = commentInput.value.trim();
+
+    if (user && commentText !== '') {
+        // Reference to the comments node in the database
+        const commentsRef = firebase.database().ref(`userPosts/${userId}/${postKey}/comments`);
+
+        // Create a unique key for the new comment
+        const newCommentKey = commentsRef.push().key;
+
+        // Construct the comment data
+        const commentData = {
+            userId: user.uid,
+            username: user.displayName,
+            text: commentText
+        };
+
+        // Add the comment to Firebase
+        commentsRef.child(newCommentKey).set(commentData);
+
+        // Clear the comment input field
+        commentInput.value = '';
+    }
+}
+
+
+// Function to display likers and make their names clickable
+function displayLikers(userId, postKey) {
+    const likersContainer = document.getElementById(`likers-${postKey}`);
+    const likersRef = firebase.database().ref(`userPosts/${userId}/${postKey}/likes`);
+    const viewLikersButton = document.createElement('button');
+    viewLikersButton.className = 'view-likers-button';
+    viewLikersButton.textContent = 'View Likers';
+
+    viewLikersButton.addEventListener('click', () => {
+        // Toggle the visibility of likers when the button is clicked
+        if (likersContainer.style.display === 'none' || likersContainer.style.display === '') {
+            likersContainer.style.display = 'block';
+            viewLikersButton.style.display = 'none'; // Hide the "View Likers" button
+        } else {
+            likersContainer.style.display = 'none';
+            viewLikersButton.style.display = 'block';
+        }
+    });
+
+    likersContainer.appendChild(viewLikersButton);
+
+    likersRef.on('value', snapshot => {
+        likersContainer.innerHTML = ''; // Clear previous likers
+
+        const likers = snapshot.val();
+        if (likers) {
+            Object.keys(likers).forEach(likerId => {
+                const likerProfileRef = firebase.database().ref(`userProfiles/${likerId}`);
+                likerProfileRef.once('value', likerSnapshot => {
+                    const likerData = likerSnapshot.val();
+                    if (likerData) {
+                        // Create an element for the liker's profile picture and username
+                        const likerElement = document.createElement('div');
+                        likerElement.className = 'liker-element';
+
+                        const likerProfileImage = document.createElement('img');
+                        likerProfileImage.src = likerData.profilePictureURL;
+                        likerProfileImage.alt = 'Liker Profile Picture';
+
+                        const likerUsername = document.createElement('a');
+                        likerUsername.href = `profile.html?userId=${likerId}`; // Link to liker's profile page
+                        likerUsername.textContent = likerData.name;
+
+                        likerElement.appendChild(likerProfileImage);
+                        likerElement.appendChild(likerUsername);
+
+                        likersContainer.appendChild(likerElement);
+                    }
+                });
+            });
+        }
+    });
+}
+
+
+
+// Modify the "Like" button function to only handle liking/unliking
+function likePost(userId, postKey) {
+    const user = firebase.auth().currentUser;
+
+    if (user) {
+        const postRef = firebase.database().ref(`userPosts/${userId}/${postKey}`);
+        postRef.transaction(function (post) {
+            if (post) {
+                if (!post.likes) {
+                    post.likes = {};
+                }
+
+                // Check if the current user has already liked this post
+                if (post.likes[user.uid]) {
+                    // User has already liked this post, remove the like
+                    delete post.likes[user.uid];
+                } else {
+                    // User has not liked this post, add the like
+                    post.likes[user.uid] = true;
+                }
+
+                // Update the like count
+                post.likesCount = Object.keys(post.likes).length;
+
+                return post;
+            }
+        });
+    }
+}
+
+function displayCommentsInPopup(userId, postKey) {
+    const commentsContent = document.getElementById('commentsContent');
+    const commentsRef = firebase.database().ref(`userPosts/${userId}/${postKey}/comments`);
+
+    commentsContent.innerHTML = ''; // Clear previous comments
+
+    commentsRef.on('child_added', snapshot => {
+        const comment = snapshot.val();
+        const commentElement = document.createElement('div');
+        commentElement.className = 'comment';
+
+        // Create elements for the comment content
+        const commentContent = document.createElement('div');
+        commentContent.className = 'comment-content';
+
+        const commentUsername = document.createElement('a');
+        commentUsername.href = `profile.html?userId=${comment.userId}`; // Link to commenter's profile page
+        commentUsername.className = 'comment-username';
+        commentUsername.textContent = comment.username;
+
+        const commentText = document.createElement('p');
+        commentText.className = 'comment-text';
+        commentText.textContent = comment.text;
+
+        // Append elements to the comment content
+        commentContent.appendChild(commentUsername);
+        commentContent.appendChild(commentText);
+
+        // Append the comment content to the comment element
+        commentElement.appendChild(commentContent);
+
+        commentsContent.appendChild(commentElement);
+    });
+}
+
+function viewComments(userId, postKey) {
+    // Display comments in the popup container
+    displayCommentsInPopup(userId, postKey);
+
+    // Show the comments popup
+    const commentsPopup = document.getElementById('commentsPopup');
+    commentsPopup.style.display = 'block';
+}
+
+
+// Listen for changes in authentication state
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        // User is signed in.
+        allPostsPanel.style.display = 'block';
+        displayAllPosts();
+    } else {
+        // User is not signed in, redirect to login or homepage
+        window.location.href = 'index.html'; // Replace with your login or homepage URL
+    }
+});
+
+// Function to display all users in the horizontal scrolling container
+function displayAllUsersHorizontally() {
+    const allUsersContainer = document.getElementById('allUsersContainer');
+
+    // Reference to the "userProfiles" node in the database
+    const userProfilesRef = firebase.database().ref('userProfiles');
+
+    userProfilesRef.on('value', snapshot => {
+        allUsersContainer.innerHTML = ''; // Clear previous user cards
+
+        snapshot.forEach(userSnapshot => {
+            const userId = userSnapshot.key;
+            const userData = userSnapshot.val();
+
+            // Create a user card element
+            const userCard = document.createElement('div');
+            userCard.className = 'user-card';
+
+            // Create an image element for the profile picture
+            const userProfileImage = document.createElement('img');
+            userProfileImage.src = userData.profilePictureURL;
+            userProfileImage.alt = 'Profile Picture';
+
+            // Create a clickable username element
+            const userNameLink = document.createElement('a');
+            userNameLink.href = `profile.html?userId=${userId}`; // Replace with the actual profile URL
+            userNameLink.textContent = userData.name;
+            userNameLink.className = 'user-name';
+
+            // Append elements to the user card
+            userCard.appendChild(userProfileImage);
+            userCard.appendChild(userNameLink);
+
+            // Append the user card to the horizontal container
+            allUsersContainer.appendChild(userCard);
+        });
+    });
+}
+
+// Call the function to display all users horizontally
+displayAllUsersHorizontally();
+
+
+
+function displayLikersInPopup(userId, postKey, button) {
+    const likersContainer = document.getElementById(`likers-${postKey}`);
+    const likersContent = document.getElementById('likersContent');
+    const likersRef = firebase.database().ref(`userPosts/${userId}/${postKey}/likes`);
+
+    likersContent.innerHTML = ''; // Clear previous likers
+
+    likersRef.on('value', snapshot => {
+        const likers = snapshot.val();
+        if (likers) {
+            Object.keys(likers).forEach(likerId => {
+                const likerProfileRef = firebase.database().ref(`userProfiles/${likerId}`);
+                likerProfileRef.once('value', likerSnapshot => {
+                    const likerData = likerSnapshot.val();
+                    if (likerData) {
+                        // Create an element for the liker's profile picture and username
+                        const likerElement = document.createElement('div');
+                        likerElement.className = 'liker-element';
+
+                        const likerProfileImage = document.createElement('img');
+                        likerProfileImage.src = likerData.profilePictureURL;
+                        likerProfileImage.alt = 'Liker Profile Picture';
+
+                        const likerUsername = document.createElement('a');
+                        likerUsername.href = `profile.html?userId=${likerId}`; // Link to liker's profile page
+                        likerUsername.textContent = likerData.name;
+
+                        likerElement.appendChild(likerProfileImage);
+                        likerElement.appendChild(likerUsername);
+
+                        likersContent.appendChild(likerElement);
+                    }
+                });
+            });
+        }
+    });
+  // Show the likers popup
+  const likersPopup = document.getElementById('likersPopup');
+    likersPopup.style.display = 'block';
+
+    // Modify the button text
+    button.textContent = 'Hide Likers';
+}
+
+function closeCommentsPopup() {
+    const commentsPopup = document.getElementById('commentsPopup');
+    commentsPopup.style.display = 'none';
+}
+// Update the closeLikersPopup function to hide the likers container
+function closeLikersPopup() {
+    const likersPopup = document.getElementById('likersPopup');
+    likersPopup.style.display = 'none';
+
+    // Reset the "View Likers" button text
+    const postKey = likersPopup.getAttribute('data-post-key');
+    const viewLikersButton = document.querySelector(`[data-post-key="${postKey}"]`);
+    viewLikersButton.textContent = 'View Likers';
+}
+
+
+
+
+
+// Handle search button click
+const searchButton = document.getElementById('searchButton');
+searchButton.addEventListener('click', () => {
+    const searchInput = document.getElementById('searchInput');
+    const query = searchInput.value.trim();
+    searchProfiles(query);
+});
+
+// Handle search input keyup (real-time search)
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('keyup', () => {
+    const query = searchInput.value.trim();
+    searchProfiles(query);
+});
+function toggleSearchBar() {
+    const searchBar = document.getElementById('searchBar');
+    if (searchBar.style.display === 'none' || searchBar.style.display === '') {
+        searchBar.style.display = 'block';
+    } else {
+        searchBar.style.display = 'none';
+    }
+}
+
+
+
+
+</script>
+
+
+
+</body>
+</html>
